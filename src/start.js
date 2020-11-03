@@ -1,13 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import Registration from "./registration";
 
-ReactDOM.render(
-    <HelloWorld />,
-    document.querySelector('main')
-);
+ReactDOM.render(<Registration />, document.querySelector("main"));
 
-function HelloWorld() {
-    return (
-        <div>Hello, World!</div>
-    );
-}
+// function HelloWorld() {
+//     return <div></div>;
+// }
