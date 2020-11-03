@@ -25,7 +25,7 @@ export default class Registration extends React.Component {
             .then((response) => {
                 console.log("response", response);
                 if (response.data.success) {
-                    // then we want to redirect the user to our social network
+                    // then we want to redirect the user to our social net  k
                     location.replace("/");
                 } else {
                     this.setState({

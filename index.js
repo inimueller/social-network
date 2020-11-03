@@ -26,14 +26,6 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-app.get("*", function (req, res) {
-    res.sendFile(__dirname + "/index.html");
-});
-
-app.listen(8080, function () {
-    console.log("I'm listening.");
-});
-
 app.post("/register", (req, res) => {
     console.log("Hit the post register route!!!");
     console.log("req.body: ", req.body);
@@ -61,4 +53,8 @@ app.get("*", function (req, res) {
     } else {
         res.sendFile(__dirname + "/index.html");
     }
+});
+
+app.listen(8080, function () {
+    console.log("I'm listening.");
 });

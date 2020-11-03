@@ -1,9 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Registration from "./registration";
+import Welcome from "./welcome";
+import Logo from "./logo";
 
-ReactDOM.render(<Registration />, document.querySelector("main"));
+let elem;
 
-// function HelloWorld() {
-//     return <div></div>;
-// }
+const userIsLoggedIn = location.pathname != "/welcome";
+if (!userIsLoggedIn) {
+    elem = <Welcome />;
+} else {
+    elem = <Logo />;
+}
+
+ReactDOM.render(elem, document.querySelector("main"));
