@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "./axios";
 
 export default class Registration extends React.Component {
     constructor() {
@@ -24,7 +24,8 @@ export default class Registration extends React.Component {
             .then((response) => {
                 console.log("response", response);
                 if (response.data.success) {
-                    // then we want to redirect the user to our social net  k
+                    // then we want to redirect the user to our social network
+                    console.log("submit getting to success : true");
                     location.replace("/");
                 } else {
                     this.setState({
@@ -32,7 +33,7 @@ export default class Registration extends React.Component {
                     });
                 }
             })
-            .catch((e) => console.log(e));
+            .catch((err) => console.log("error in submit registration: ", err));
     }
 
     render() {

@@ -4,8 +4,8 @@ const compression = require("compression");
 const cookieSession = require("cookie-session");
 const { hash } = require("./bc");
 const db = require("./db");
+// const csurf = require("csurf");
 
-app.use(express.json());
 app.use(
     cookieSession({
         secret: "I'm always hungry",
@@ -15,7 +15,16 @@ app.use(
 
 app.use(compression());
 
+// app.use(csurf());
+
+// app.use(function (req, res, next) {
+//     res.cookie("mytoken", req.csrfToken());
+//     next();
+// });
+
 app.use(express.static("public"));
+
+app.use(express.json());
 
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -28,30 +37,12 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-// app.post("/register", (req, res) => {
-//     console.log("Hit the post register route!!!");
-//     console.log("req.body: ", req.body);
-
-//     // when everything works (i.e. hashing and inserting a row, and adding somethin to the session object)
-//     req.session.userId = 1;
-//     res.json({ success: true });
-// });
-
 app.post("/register", (req, res) => {
-    // grab the user input and read it on the server
-    // like this? ->
     console.log(req.body);
     const { first, last, email, password } = req.body;
-    // console.log("datos ingresados: ", first, last, email, password);
 
     // checks that all the fields are filled
-    if (
-        first !== "" &&
-        last !== "" &&
-        email !== "" &&
-        password !== ""
-        // hash the passowrd that the user typed and THEN-> insert a row in the USERS table
-    ) {
+    if (first !== "" && last !== "" && email !== "" && password !== "") {
         // TO-DO Que pasa cuando el email ya esta en la DB ?
         hash(password)
             .then((hashedPw) => {
@@ -59,10 +50,13 @@ app.post("/register", (req, res) => {
                 return db.createUser(first, last, email, hashedPw);
             })
             .then((results) => {
-                console.log(results);
+                console.log("results: ", results);
                 const { id } = results.rows[0];
                 req.session.userId = id;
-                res.json({ success: true }); // why is tis not working?
+                console.log("req.session: ", req.session);
+
+                console.log("reaching res.json??"); // this is being loged...so
+                res.json({ success: true }); // why is this not working????
             })
             .catch((err) => {
                 console.log("error post /register route: ", err);
@@ -87,6 +81,7 @@ app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
+        console.log("else block");
         res.sendFile(__dirname + "/index.html");
     }
 });
