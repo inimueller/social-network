@@ -5,16 +5,15 @@ export default class Registration extends React.Component {
     constructor() {
         super();
         this.state = {};
-        // this.handleChange = this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(e) {
-        // console.log("e.target.value", e.target.value);
         this.setState(
             {
                 [e.target.name]: e.target.value,
             },
-            () => console.log("this.state in the callback: ")
+            () => console.log("this.state in the callback: ", this.state)
         );
     }
 
