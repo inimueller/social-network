@@ -67,7 +67,7 @@ export default class Registration extends React.Component {
                 <button onClick={() => this.submit()}>Register!</button>
                 <p>
                     Do you already have an account?
-                    <Link to="/"> Login</Link>
+                    <Link to="/login"> Login</Link>
                 </p>
             </div>
         );
