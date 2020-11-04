@@ -4,7 +4,7 @@ const compression = require("compression");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc");
 const db = require("./db");
-// const csurf = require("csurf");
+const csurf = require("csurf");
 
 app.use(
     cookieSession({
@@ -15,12 +15,12 @@ app.use(
 
 app.use(compression());
 
-// app.use(csurf());
+app.use(csurf());
 
-// app.use(function (req, res, next) {
-//     res.cookie("mytoken", req.csrfToken());
-//     next();
-// });
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 app.use(express.static("public"));
 
@@ -52,10 +52,10 @@ app.post("/register", (req, res) => {
                 return db.createUser(first, last, email, hashedPw);
             })
             .then((results) => {
-                console.log("results: ", results);
+                // console.log("results: ", results);
                 const { id } = results.rows[0];
                 req.session.userId = id;
-                console.log("req.session: ", req.session);
+                // console.log("req.session: ", req.session);
 
                 res.json({ success: true });
             })
@@ -106,12 +106,12 @@ app.get("/welcome", (req, res) => {
 
 // it is important that the * route is the LAST get route we have....
 app.get("*", function (req, res) {
-    console.log("req.session: ", req.session);
+    // console.log("req.session: ", req.session);
 
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
-        console.log("else block");
+        // console.log("else block");
         res.sendFile(__dirname + "/index.html");
     }
 });
