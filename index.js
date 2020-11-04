@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const compression = require("compression");
 const cookieSession = require("cookie-session");
-const { hash } = require("./bc");
+const { hash, compare } = require("./bc");
 const db = require("./db");
 // const csurf = require("csurf");
 
@@ -37,6 +37,8 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
+//////// REGISTER POST REQUEST
+
 app.post("/register", (req, res) => {
     console.log(req.body);
     const { first, last, email, password } = req.body;
@@ -55,8 +57,7 @@ app.post("/register", (req, res) => {
                 req.session.userId = id;
                 console.log("req.session: ", req.session);
 
-                console.log("reaching res.json??"); // this is being loged...so
-                res.json({ success: true }); // why is this not working????
+                res.json({ success: true });
             })
             .catch((err) => {
                 console.log("error post /register route: ", err);
@@ -64,6 +65,36 @@ app.post("/register", (req, res) => {
             });
     }
 });
+
+/// LOGIN POST REQUEST
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    db.getUser(email)
+        .then(({ rows }) => {
+            const { id } = rows[0];
+            const hash = rows[0].password;
+            compare(password, hash)
+                .then((result) => {
+                    if (result) {
+                        req.session.userId = id;
+                        res.json({ success: true });
+                    } else {
+                        res.json({ success: false });
+                    }
+                })
+                .catch((err) => {
+                    console.log("error in post /login: ", err);
+                    res.json({ success: false });
+                });
+        })
+        .catch((err) => {
+            console.log("error in post /login: ", err);
+            res.json({ success: false });
+        });
+});
+
+/////// GET REQ
 
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -76,8 +107,7 @@ app.get("/welcome", (req, res) => {
 // it is important that the * route is the LAST get route we have....
 app.get("*", function (req, res) {
     console.log("req.session: ", req.session);
-    // console.log("req.session.userId: ", req.session.userId);
-    // console.log("!res.session.userId: ", !res.session.userId);
+
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {

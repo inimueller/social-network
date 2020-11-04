@@ -9,7 +9,6 @@ const userIsLoggedIn = location.pathname != "/welcome";
 if (!userIsLoggedIn) {
     elem = <Welcome />;
 } else {
-    console.log("hey ivana");
     elem = <Logo />;
 }
 
