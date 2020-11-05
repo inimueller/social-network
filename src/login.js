@@ -42,7 +42,7 @@ export default class Login extends React.Component {
     }
 
     render() {
-        // console.log("this.state.error: ", this.state.error);
+        console.log("this.state.error: ", this.state.error);
         return (
             <div>
                 <h1>I am the Login Component!</h1>
