@@ -14,7 +14,6 @@ export default class App extends React.Component {
             imgUrl: null,
             uploaderIsVisible: false,
         };
-        this.methodInApp = this.methodInApp.bind(this);
     }
     componentDidMount() {
         console.log("App just mounted");
@@ -29,12 +28,6 @@ export default class App extends React.Component {
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
-
-    methodInApp(arg) {
-        console.log("running in App component");
-        console.log("Arg I passed: ", arg);
-    }
-
     render() {
         return (
             <>
@@ -52,7 +45,6 @@ export default class App extends React.Component {
                 </h2>
                 {this.state.uploaderIsVisible && <Uploader />}
                 {/* this uploaderIsVisible is set to false in line 15 */}
-                <Uploader methodInApp={this.methodInApp} />
             </>
         );
     }
