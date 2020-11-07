@@ -8,44 +8,44 @@ export default class ResetPassword extends React.Component {
         this.state = {
             display: 1,
         };
-        // this.handleChange = this.handleChange.bind(this);
+        //choosing to bind this, seems easier
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(e) {
-        this.setState(
-            {
-                [e.target.name]: e.target.value,
-            }
-            // () => console.log("this.state in the callback: ")
-        );
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
     }
-    getCurrentDisplay(step) {
-        step = this.state.display;
+    getCurrentDisplay() {
+        const step = this.state.display;
         if (step == 1) {
+            console.log("first display modus");
+
             return (
                 <div>
-                    <p>Please enter the email address you registered with:</p>
+                    <p>Please enter your email address</p>
                     <input
                         name="email"
                         placeholder="Email"
-                        onChange={(e) => this.handleChange(e)}
-                        className="reg-input"
+                        onChange={this.handleChange}
                         autoComplete="off"
                     ></input>
-                    <button onClick={() => this.next()}>Next</button>
+                    <button onClick={() => this.reset()}>Reset</button>
                 </div>
             );
         } else if (step == 2) {
-            console.log("SECOND step in the RESET process");
+            console.log("second display modus");
             return (
                 <div>
-                    <p>We found your email and sent you a code</p>
-                    <p>Please enter the code emailed to you:</p>
+                    <p>
+                        Please check your email to find your secret code and
+                        enter it here:
+                    </p>
                     <input
                         name="code"
                         placeholder="Code"
-                        onChange={(e) => this.handleChange(e)}
-                        className="reg-input"
+                        onChange={this.handleChange}
                         autoComplete="off"
                     ></input>
                     <p>Please enter a new password:</p>
@@ -53,15 +53,14 @@ export default class ResetPassword extends React.Component {
                         name="password"
                         placeholder="Password"
                         type="password"
-                        onChange={(e) => this.handleChange(e)}
-                        className="reg-input"
+                        onChange={this.handleChange}
                         autoComplete="off"
                     ></input>
-                    <button onClick={() => this.submit()}>Submit</button>
+                    <button onClick={() => this.update()}>update</button>
                 </div>
             );
         } else {
-            console.log("THIRD step in the RESET process");
+            console.log("third display modus");
             return (
                 <div>
                     <p>Password reset successfully reset</p>
@@ -73,20 +72,16 @@ export default class ResetPassword extends React.Component {
         }
     }
 
-    next() {
-        console.log("Axios in next()");
-        // const me = this;
+    reset() {
+        console.log("Axios in reset()");
         axios
-            // .post("/reset/:${email}", this.state)
             .post("/reset/email", this.state)
             .then((response) => {
-                console.log("response in next() axios", response);
+                console.log("response in reset() axios", response);
                 if (response.data.success) {
                     console.log("successful response in reset/email axios");
                     this.setState({ display: this.state.display + 1 });
-                    // console.log("this.state after response in axios", this.state);
                 } else {
-                    // this.state.error = true;
                     console.log(
                         "error with email submission in Password reset"
                     );
@@ -97,24 +92,19 @@ export default class ResetPassword extends React.Component {
                 console.log("err in reset/email axios axios", err);
             });
     }
-    submit() {
-        console.log("Axios in submit()");
-        // const me = this;
+    update() {
+        console.log("axios in update failed");
         axios
-            // .post("/reset/:${email}", this.state)
             .post("/reset/verify", this.state)
             .then((response) => {
-                console.log("response in submit() axios", response);
+                console.log("axios response for update", response);
                 if (response.data.success) {
                     console.log("successful response in reset/verify axios");
                     this.setState({ display: this.state.display + 1 });
-                    // console.log("this.state after response in axios", this.state);
                 } else {
-                    // this.state.error = true;
                     console.log(
                         "error with email submission in Password reset"
                     );
-                    //here setState{display:X} which can be used to conditionally render an error
                 }
             })
             .catch((err) => {
@@ -123,8 +113,6 @@ export default class ResetPassword extends React.Component {
     }
 
     render() {
-        // console.log("this.state in after render()", this.state);
-        // console.log("this.state.error in after render()", this.state.error);
-        return <div className="main-container">{this.getCurrentDisplay()}</div>;
+        return <div>{this.getCurrentDisplay()}</div>;
     }
 }

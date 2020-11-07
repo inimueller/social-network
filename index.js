@@ -7,6 +7,9 @@ const db = require("./db");
 const csurf = require("csurf");
 const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
+const s3 = require("./s3");
+
+// 1. MIDDLEWARE
 
 app.use(
     cookieSession({
@@ -94,6 +97,101 @@ app.post("/login", (req, res) => {
             console.log("error in post /login: ", err);
             res.json({ success: false });
         });
+});
+
+// POST RESET PASSWORD
+
+app.post("/reset/email", (req, res) => {
+    const { email } = req.body;
+    console.log(" POST /reset/email route working");
+
+    if (email !== "") {
+        db.checkEmail(email)
+            .then(({ rows }) => {
+                if (rows.length === 1) {
+                    // this generates a reset code ->
+                    const resetCode = cryptoRandomString({
+                        length: 6,
+                    });
+                    // this inserts resetCode and the email into database (only if email already exists)
+                    db.addCode(resetCode, email)
+                        .then(() => {
+                            let recipient = email;
+                            let message = `To reset yuor password please copy and paste this code: ${resetCode}`;
+                            let subject = `Here is your secret code`;
+                            ses.sendEmail(recipient, message, subject)
+                                .then(() => {
+                                    res.json({
+                                        success: true,
+                                    });
+                                })
+                                .catch((err) => {
+                                    console.log(
+                                        "error in POST /reset/email when sending email: ",
+                                        err
+                                    );
+                                });
+                        })
+                        .catch((err) => {
+                            console.log(
+                                "error in POST /reset/email when adding code",
+                                err
+                            );
+                        });
+                } else {
+                    console.log("This email does not exist in our database");
+                }
+            })
+            .catch((err) => {
+                console.log(
+                    "error in POST /reset/email with checkEmail()",
+                    err
+                );
+            });
+    } else {
+        console.log("don't forget your email");
+    }
+});
+
+// VERIFY ROUTE
+
+app.post("/reset/verify", (req, res) => {
+    const { email, code, password } = req.body;
+
+    if (code !== "" && password !== "") {
+        db.getCode(email)
+            .then((response) => {
+                if (response.rows[0].code == code) {
+                    hash(password)
+                        .then((hashedPw) => {
+                            db.updatePassword(hashedPw, email)
+                                .then(({ rows }) => {
+                                    console.log(
+                                        "Error in reset 2nd display",
+                                        rows
+                                    );
+                                    res.json({ success: true });
+                                })
+                                .catch((err) => {
+                                    console.log(
+                                        "Error in reset third display",
+                                        err
+                                    );
+                                });
+                        })
+                        .catch((err) => {
+                            console.log("error in POST /register", err);
+                        });
+                } else {
+                    console.log("That is the wrong code");
+                }
+            })
+            .catch((err) => {
+                console.log("error in POST (invalid code???)", err);
+            });
+    } else {
+        console.log("every field must be filled");
+    }
 });
 
 /////// GET REQ

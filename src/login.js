@@ -52,7 +52,6 @@ export default class Login extends React.Component {
                     name="email"
                     placeholder="email..."
                     onChange={(e) => this.handleChange(e)}
-                    className="input-registration"
                     // onChange={this.handleChange}
                 ></input>
                 <input
@@ -60,18 +59,8 @@ export default class Login extends React.Component {
                     type="password"
                     placeholder="password..."
                     onChange={(e) => this.handleChange(e)}
-                    className="input-registration"
                 ></input>
-                <button
-                    style={{
-                        "background-color": "teal",
-                        color: "white",
-                    }}
-                    className="input-registration"
-                    onClick={() => this.submit()}
-                >
-                    Login
-                </button>
+                <button onClick={() => this.submit()}>Login</button>
                 <p>
                     If you dont have an account yet please go to
                     <Link to="/">Register</Link>
