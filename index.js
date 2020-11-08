@@ -8,6 +8,10 @@ const csurf = require("csurf");
 const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
 const s3 = require("./s3");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+const s3Url = "https://s3.amazonaws.com/spicedling/";
 
 // 1. MIDDLEWARE
 
@@ -30,6 +34,28 @@ app.use(function (req, res, next) {
 app.use(express.static("public"));
 
 app.use(express.json());
+
+//UPLOADER FILES STUFF:
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
+
+//////////
 
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -153,6 +179,28 @@ app.post("/reset/email", (req, res) => {
     }
 });
 
+// POST UPLOAD
+
+app.post("/images", uploader.single("file"), s3.upload, (req, res) => {
+    console.log("ACCESSED POST /images route ");
+
+    const { userId } = req.session;
+    const { filename } = req.file;
+    const url = s3Url + filename;
+    if (req.file) {
+        db.uploadImage(url, userId)
+            .then(({ rows }) => {
+                console.log("POST /images response", rows[0].url);
+                res.json(rows[0].url);
+            })
+            .catch((err) => {
+                console.log("error in POST /upload with uploadImage()", err);
+            });
+    } else {
+        res.json({ success: false });
+    }
+});
+
 // VERIFY ROUTE
 
 app.post("/reset/verify", (req, res) => {
@@ -204,10 +252,30 @@ app.get("/welcome", (req, res) => {
     }
 });
 
-// it is important that the * route is the LAST get route we have....
+// GET USER BY ID
+
+app.get("/user", (req, res) => {
+    const { userId } = req.session;
+    console.log("users route hit");
+    console.log(userId);
+    db.getUserById(userId)
+        .then(({ rows }) => {
+            console.log("rows in index /user: ", rows);
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("error in /get user: ", err);
+        });
+});
+
+// app.get("/ini", (req, res) => {
+//     console.log("route ini does show up");
+// }); //test
+
+// it is important that the * route is the LAST get route we have !!!!!!!!!!
 app.get("*", function (req, res) {
     // console.log("req.session: ", req.session);
-
+    // console.log("ïni");
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {

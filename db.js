@@ -13,6 +13,7 @@ module.exports.createUser = (first, last, email, password) => {
         [first, last, email, password]
     );
 };
+
 module.exports.getUser = (email) => {
     return db.query(`SELECT * FROM users WHERE email = $1`, [email]);
 };
@@ -54,4 +55,16 @@ module.exports.updatePassword = (password, email) => {
     `,
         [password, email]
     );
+};
+
+exports.uploadImage = (url, id) => {
+    return db.query(
+        `UPDATE users SET url = $1 WHERE id = $2 RETURNING url;
+    `,
+        [url, id]
+    );
+};
+
+module.exports.getUserById = (id) => {
+    return db.query(`SELECT * FROM users WHERE id = $1`, [id]);
 };
