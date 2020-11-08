@@ -5,7 +5,7 @@ export default class Uploader extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            url: props.url,
+            url: props.imgUrl,
         };
     }
 

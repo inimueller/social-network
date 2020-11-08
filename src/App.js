@@ -20,8 +20,8 @@ export default class App extends React.Component {
         console.log("App just mounted");
         axios
             .get("/user")
-            .then((response) => {
-                // const { first, last, email, bio, url, id } = data;
+            .then(({ data }) => {
+                const { first, last, email, bio, url, id } = data;
                 // console.log(data);
                 this.setState({
                     id: id,
@@ -29,10 +29,10 @@ export default class App extends React.Component {
                     last: last,
                     email: email,
                     bio: bio,
-                    url: url,
+                    imgUrl: url,
                 });
                 // console.log(this.state);
-                console.log(response);
+                console.log(data);
             })
             .catch((e) => {
                 console.log("error in axios: ", e);
