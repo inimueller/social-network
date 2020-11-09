@@ -35,7 +35,7 @@ app.use(express.static("public"));
 
 app.use(express.json());
 
-//UPLOADER FILES STUFF:
+//UPLOADER FILES STUFF, boilerplate:
 
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -55,7 +55,9 @@ const uploader = multer({
     },
 });
 
-//////////
+////////// ends of boilerplate
+
+////// middlewere compiler
 
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -125,7 +127,7 @@ app.post("/login", (req, res) => {
         });
 });
 
-// POST RESET PASSWORD
+// RESET PASSWORD POST REQUEST
 
 app.post("/reset/email", (req, res) => {
     const { email } = req.body;
@@ -179,7 +181,7 @@ app.post("/reset/email", (req, res) => {
     }
 });
 
-// POST UPLOAD
+// UPLOAD PROFILE PIC POST REQUEST
 
 app.post("/images", uploader.single("file"), s3.upload, (req, res) => {
     console.log("ACCESSED POST /images route ");
@@ -201,7 +203,7 @@ app.post("/images", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
-// VERIFY ROUTE
+// VERIFY PASSWORD POST REQUEST
 
 app.post("/reset/verify", (req, res) => {
     const { email, code, password } = req.body;
@@ -242,7 +244,28 @@ app.post("/reset/verify", (req, res) => {
     }
 });
 
-/////// GET REQ
+//////// UPDATE BIO POST REQUEST
+
+app.post("/bio", (req, res) => {
+    console.log("ACCESSED POST /bio route ");
+    const { userId } = req.session;
+    const { bioDraft } = req.body;
+
+    db.updateBio(bioDraft, userId)
+        .then(({ rows }) => {
+            console.log("POST /bio response", rows[0].bio);
+            res.json(rows[0].bio);
+        })
+        .catch((err) => {
+            console.log("error in POST /bio with uploadProfilePic", err);
+            res.json({
+                success: false,
+            });
+            console.log("Updating bio didn't work");
+        });
+});
+
+/////// GET REQUESTS!!!!!!!!!! //////
 
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -260,17 +283,17 @@ app.get("/user", (req, res) => {
     console.log(userId);
     db.getUserById(userId)
         .then(({ rows }) => {
-            console.log("rows in index /user: ", rows);
+            // console.log("rows in index /user: ", rows);
             res.json(rows[0]);
         })
         .catch((err) => {
-            console.log("error in /get user: ", err);
+            console.log("error in GET /user: ", err);
         });
 });
 
 // app.get("/ini", (req, res) => {
 //     console.log("route ini does show up");
-// }); //test
+// }); //test -> console logs are not showing up :((
 
 // it is important that the * route is the LAST get route we have !!!!!!!!!!
 app.get("*", function (req, res) {

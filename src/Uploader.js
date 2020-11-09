@@ -62,21 +62,24 @@ export default class Uploader extends React.Component {
 
     render() {
         return (
-            <div id="uploader">
-                <h1>Uploader</h1>
-                <img
-                    src={
-                        this.state.url ||
-                        "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
-                    }
-                />
+            <div id="modal-overlay">
+                <div id="uploader">
+                    <h1>Uploader</h1>
+                    <img
+                        id="card"
+                        src={
+                            this.state.url ||
+                            "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
+                        }
+                    />
 
-                <input
-                    name="file"
-                    type="file"
-                    onChange={(e) => this.handleChange(e)}
-                ></input>
-                <button onClick={() => this.submit()}>Upload</button>
+                    <input
+                        name="file"
+                        type="file"
+                        onChange={(e) => this.handleChange(e)}
+                    ></input>
+                    <button onClick={() => this.submit()}>Upload</button>
+                </div>
             </div>
         );
     }

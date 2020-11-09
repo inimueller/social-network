@@ -22,6 +22,8 @@ module.exports.checkEmail = (email) => {
     return db.query(`SELECT * FROM users WHERE email=$1`, [email]);
 };
 
+// reseting password
+
 module.exports.addCode = (code, email) => {
     return db.query(
         `
@@ -57,6 +59,8 @@ module.exports.updatePassword = (password, email) => {
     );
 };
 
+// changing profile pic
+
 exports.uploadImage = (url, id) => {
     return db.query(
         `UPDATE users SET url = $1 WHERE id = $2 RETURNING url;
@@ -67,4 +71,18 @@ exports.uploadImage = (url, id) => {
 
 module.exports.getUserById = (id) => {
     return db.query(`SELECT * FROM users WHERE id = $1`, [id]);
+};
+
+// updating bio
+
+module.exports.updateBio = (bio, id) => {
+    return db.query(
+        `
+        UPDATE users
+        SET bio=$1
+        WHERE id=$2
+        RETURNING *
+        `,
+        [bio, id]
+    );
 };

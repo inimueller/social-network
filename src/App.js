@@ -3,6 +3,7 @@
 import React from "react";
 import Logo from "./logo";
 import Uploader from "./Uploader";
+import Profile from "./Profile";
 import ProfilePic from "./ProfilePic";
 import axios from "./axios";
 
@@ -14,6 +15,7 @@ export default class App extends React.Component {
             uploaderIsVisible: false, //should actually be false but then I don't see it so I set it to true to see it.
         };
         this.methodInApp = this.methodInApp.bind(this);
+        this.updateBio = this.updateBio.bind(this);
     }
 
     componentDidMount() {
@@ -53,6 +55,14 @@ export default class App extends React.Component {
         });
     }
 
+    updateBio(arg) {
+        // this.setState({ bio: arg }),
+        this.setState({ bio: arg });
+        () => {
+            console.log("state in App after updateBio", this.state);
+        };
+    }
+
     methodInApp(arg) {
         this.toggleComponent();
         // this.setState();
@@ -71,6 +81,16 @@ export default class App extends React.Component {
                         toggleComponent={() => this.toggleComponent()}
                     />
                 </header>
+                <div>
+                    <Profile
+                        imgUrl={this.state.imgUrl}
+                        first={this.state.first}
+                        last={this.state.last}
+                        bio={this.state.bio}
+                        id={this.state.id}
+                        updateBio={(arg) => this.updateBio(arg)}
+                    />
+                </div>
                 <div>
                     {this.state.uploaderIsVisible && (
                         <Uploader
