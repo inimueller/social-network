@@ -310,7 +310,7 @@ app.get("/api/user/:id", (req, res) => {
 
     // if the id is different of the id in the cookies that code should run (if not -> line 333)
 
-    if (id !== userId) {
+    if (id != userId) {
         db.getOtherProfiles(id)
             .then(({ rows }) => {
                 if (rows[0]) {
@@ -318,10 +318,7 @@ app.get("/api/user/:id", (req, res) => {
                     res.json(rows[0]);
                 } else {
                     console.log("user does not exist");
-                    res.json({
-                        errorMsg: "User {id} does not exist",
-                        success: false,
-                    });
+                    res.json({ editing: true });
                 }
             })
             .catch((err) => {
