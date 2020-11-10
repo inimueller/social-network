@@ -260,9 +260,9 @@ app.post("/reset/verify", (req, res) => {
 app.post("/bio", (req, res) => {
     console.log("ACCESSED POST /bio route ");
     const { userId } = req.session;
-    const { bioDraft } = req.body;
+    const { bio } = req.body;
 
-    db.updateBio(bioDraft, userId)
+    db.updateBio(bio, userId)
         .then(({ rows }) => {
             console.log("POST /bio response", rows[0].bio);
             res.json(rows[0].bio);

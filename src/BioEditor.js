@@ -11,22 +11,21 @@ export default class BioEditor extends Component {
         };
     }
 
-    toggleBioEditor(e) {
+    toggleBioEditor() {
         console.log("toggleBioEditor works");
         this.setState({
             editorIsVisible: !this.state.editorIsVisible,
-            bioDraft: this.props.bio,
+            bio: this.props.bio,
         });
-        console.log(e);
         let textarea = document.getElementsByTagName("textarea");
-        console.log(textarea);
+        console.log("text area: ", textarea);
     }
 
     handleChange(e) {
-        console.log("bioDraft: ", this.state.bioDraft);
+        console.log("bio: ", this.state.bio);
         this.setState(
             {
-                bioDraft: e.target.value,
+                bio: e.target.value,
             },
             () => {
                 console.log("this.state: ", this.state);
@@ -42,17 +41,17 @@ export default class BioEditor extends Component {
     submitBio() {
         console.log("about to submit!!!", this.state);
         axios
-            .post("/bio", { bio: this.state.bioDraft, id: this.props.id })
+            .post("/bio", { bio: this.state.bio, id: this.props.id })
             .then((response) => {
-                console.log(response.data);
+                console.log("response data: ", response.data);
                 this.setState({
-                    bioDraft: response.data.bio,
+                    bio: response.data.bio,
                 });
                 this.updateBio(response.data.bio);
                 this.toggleBioEditor();
             })
-            .catch((e) => {
-                console.log(e);
+            .catch((err) => {
+                console.log("error: ", err);
             });
     }
 
@@ -68,10 +67,11 @@ export default class BioEditor extends Component {
                             name="bio"
                             onChange={(e) => this.handleChange(e)}
                             // need to work or prepopulation the textfield
-                            value={this.state.bioDraft}
+                            value={this.state.bio}
                         />
                     </div>
                 )}
+                <div>{this.props.bio}</div>
                 {this.props.bio && !this.state.editorIsVisible && (
                     <button onClick={() => this.toggleBioEditor()}>Edit</button>
                 )}
