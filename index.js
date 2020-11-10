@@ -15,6 +15,7 @@ const s3Url = "https://s3.amazonaws.com/spicedling/";
 
 // 1. MIDDLEWARE
 
+// cookies
 app.use(
     cookieSession({
         secret: "I'm always hungry",
@@ -22,7 +23,11 @@ app.use(
     })
 );
 
+// i'm pretty sure this refers to the image uploading
+
 app.use(compression());
+
+// csurf token
 
 app.use(csurf());
 
@@ -30,6 +35,8 @@ app.use(function (req, res, next) {
     res.cookie("mytoken", req.csrfToken());
     next();
 });
+
+// ALWAYS REMEMBER express and json
 
 app.use(express.static("public"));
 
@@ -57,7 +64,7 @@ const uploader = multer({
 
 ////////// ends of boilerplate
 
-////// middlewere compiler
+////// middlewere compiler for react (2 ports thing)
 
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -70,7 +77,9 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-//////// REGISTER POST REQUEST
+//  ------ logged out user ------  //
+
+//////// register POST req
 
 app.post("/register", (req, res) => {
     console.log(req.body);
@@ -99,7 +108,7 @@ app.post("/register", (req, res) => {
     }
 });
 
-/// LOGIN POST REQUEST
+/// login POST request
 
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
@@ -127,7 +136,7 @@ app.post("/login", (req, res) => {
         });
 });
 
-// RESET PASSWORD POST REQUEST
+// rest password POST request
 
 app.post("/reset/email", (req, res) => {
     const { email } = req.body;
@@ -181,7 +190,9 @@ app.post("/reset/email", (req, res) => {
     }
 });
 
-// UPLOAD PROFILE PIC POST REQUEST
+// ---------- logged in user ---------- //
+
+// upload profile pic POST request
 
 app.post("/images", uploader.single("file"), s3.upload, (req, res) => {
     console.log("ACCESSED POST /images route ");
@@ -203,7 +214,7 @@ app.post("/images", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
-// VERIFY PASSWORD POST REQUEST
+// verify password POST request
 
 app.post("/reset/verify", (req, res) => {
     const { email, code, password } = req.body;
@@ -244,7 +255,7 @@ app.post("/reset/verify", (req, res) => {
     }
 });
 
-//////// UPDATE BIO POST REQUEST
+//////// update bio  POST request
 
 app.post("/bio", (req, res) => {
     console.log("ACCESSED POST /bio route ");
@@ -275,12 +286,11 @@ app.get("/welcome", (req, res) => {
     }
 });
 
-// GET USER BY ID
+// get -> user profile
 
 app.get("/user", (req, res) => {
     const { userId } = req.session;
-    console.log("users route hit");
-    console.log(userId);
+    // console.log(userId);
     db.getUserById(userId)
         .then(({ rows }) => {
             // console.log("rows in index /user: ", rows);
@@ -291,11 +301,42 @@ app.get("/user", (req, res) => {
         });
 });
 
+// get -> otherProfiles
+
+app.get("/api/user/:id", (req, res) => {
+    const { id } = req.params;
+    const { userId } = req.session;
+    console.log("{id} in get /api/user/:id:", id);
+
+    // if(user id exists in database) //add condition for non-existing users
+    db.getOtherProfiles(id)
+        .then(({ rows }) => {
+            if (rows[0]) {
+                console.log("rows[0] in GET /user/:id:", rows[0]);
+                res.json(rows[0]);
+            } else {
+                console.log("user does not exist");
+                res.json({
+                    errorMsg: "User {id} does not exist",
+                    success: false,
+                });
+            }
+        })
+        .catch((err) => {
+            "err in GET api/user/:id", err;
+            res.json({
+                success: false,
+                errorMsg: "Oops, that user does not exist",
+            });
+        });
+});
+
 // app.get("/ini", (req, res) => {
 //     console.log("route ini does show up");
-// }); //test -> console logs are not showing up :((
+// }); //test -> console logs are not showing up :(( -> solved by turning computer off and on LOL
 
 // it is important that the * route is the LAST get route we have !!!!!!!!!!
+
 app.get("*", function (req, res) {
     // console.log("req.session: ", req.session);
     // console.log("ïni");

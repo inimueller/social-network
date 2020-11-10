@@ -6,6 +6,8 @@ import Uploader from "./Uploader";
 import Profile from "./Profile";
 import ProfilePic from "./ProfilePic";
 import axios from "./axios";
+import OtherProfile from "./OtherProfile";
+import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends React.Component {
     constructor() {
@@ -71,7 +73,7 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <>
+            <BrowserRouter>
                 <header>
                     <Logo />
                     <ProfilePic
@@ -82,13 +84,31 @@ export default class App extends React.Component {
                     />
                 </header>
                 <div>
-                    <Profile
-                        imgUrl={this.state.imgUrl}
-                        first={this.state.first}
-                        last={this.state.last}
-                        bio={this.state.bio}
-                        id={this.state.id}
-                        updateBio={(arg) => this.updateBio(arg)}
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Profile
+                                imgUrl={this.state.imgUrl}
+                                first={this.state.first}
+                                last={this.state.last}
+                                bio={this.state.bio}
+                                id={this.state.id}
+                                updateBio={(arg) => this.updateBio(arg)}
+                            />
+                        )}
+                    />
+                </div>
+                <div>
+                    <Route
+                        path="/user/:id"
+                        render={(props) => (
+                            <OtherProfile
+                                key={props.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
                     />
                 </div>
                 <div>
@@ -100,7 +120,7 @@ export default class App extends React.Component {
                         />
                     )}
                 </div>
-            </>
+            </BrowserRouter>
         );
     }
 }
