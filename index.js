@@ -308,27 +308,32 @@ app.get("/api/user/:id", (req, res) => {
     const { userId } = req.session;
     console.log("{id} in get /api/user/:id:", id);
 
-    // if(user id exists in database) //add condition for non-existing users
-    db.getOtherProfiles(id)
-        .then(({ rows }) => {
-            if (rows[0]) {
-                console.log("rows[0] in GET /user/:id:", rows[0]);
-                res.json(rows[0]);
-            } else {
-                console.log("user does not exist");
+    // if the id is different of the id in the cookies that code should run (if not -> line 333)
+
+    if (id !== userId) {
+        db.getOtherProfiles(id)
+            .then(({ rows }) => {
+                if (rows[0]) {
+                    console.log("rows[0] in GET /user/:id:", rows[0]);
+                    res.json(rows[0]);
+                } else {
+                    console.log("user does not exist");
+                    res.json({
+                        errorMsg: "User {id} does not exist",
+                        success: false,
+                    });
+                }
+            })
+            .catch((err) => {
+                "err in GET api/user/:id", err;
                 res.json({
-                    errorMsg: "User {id} does not exist",
-                    success: false,
+                    errorMsg: "Oops, that user does not exist",
                 });
-            }
-        })
-        .catch((err) => {
-            "err in GET api/user/:id", err;
-            res.json({
-                success: false,
-                errorMsg: "Oops, that user does not exist",
             });
-        });
+        // if not -> editing: true (OtherProfile line 21)
+    } else {
+        res.json({ editing: true });
+    }
 });
 
 // app.get("/ini", (req, res) => {

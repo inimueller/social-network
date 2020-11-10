@@ -18,7 +18,7 @@ export default class OtherProfile extends React.Component {
             .then((response) => {
                 console.log("hello hhhhhhh: ", response);
 
-                if (response.data.denied) {
+                if (response.data.editing) {
                     this.props.history.push("/");
                 } else {
                     this.setState({
@@ -40,19 +40,17 @@ export default class OtherProfile extends React.Component {
             <>
                 <div id="other-profile">
                     <h1> Hi am the OtherProfile</h1>
-                    <h2>
-                        <img
-                            src={
-                                this.state.url ||
-                                "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
-                            }
-                        />
+                    <img
+                        src={
+                            this.state.url ||
+                            "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
+                        }
+                    />
 
-                        <h3>
-                            {this.state.first} {this.state.last}
-                        </h3>
-                        <p>{this.state.bio}</p>
-                    </h2>
+                    <h4>
+                        {this.state.first} {this.state.last}
+                    </h4>
+                    <p>{this.state.bio}</p>
                 </div>
             </>
         );
