@@ -8,6 +8,7 @@ import ProfilePic from "./ProfilePic";
 import axios from "./axios";
 import OtherProfile from "./OtherProfile";
 import { BrowserRouter, Route } from "react-router-dom";
+import FindPeople from "./FindPeople";
 
 export default class App extends React.Component {
     constructor() {
@@ -76,12 +77,14 @@ export default class App extends React.Component {
             <BrowserRouter>
                 <header>
                     <Logo />
-                    <ProfilePic
-                        first={this.state.first}
-                        last={this.state.last}
-                        imgUrl={this.state.imgUrl}
-                        toggleComponent={() => this.toggleComponent()}
-                    />
+                    <div id="profile-pic-header">
+                        <ProfilePic
+                            first={this.state.first}
+                            last={this.state.last}
+                            imgUrl={this.state.imgUrl}
+                            toggleComponent={() => this.toggleComponent()}
+                        />
+                    </div>
                 </header>
                 <div>
                     <Route
@@ -111,6 +114,11 @@ export default class App extends React.Component {
                         )}
                     />
                 </div>
+
+                <div>
+                    <Route path="/users" render={() => <FindPeople />} />
+                </div>
+
                 <div>
                     {this.state.uploaderIsVisible && (
                         <Uploader

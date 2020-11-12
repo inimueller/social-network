@@ -7,18 +7,51 @@ body {
     background-color: whitesmoke;
 }
 
+/* TEXT  */
+
+h1 {
+    font-family: monospace;
+}
+
+h3 {
+    font-family: monospace;
+}
+
+p {
+    font-family: monospace;
+}
+
 img {
-    float: right;
+    /* float: right; */
     width: 200px;
 }
 
 #profilePic {
     position: relative;
     border-radius: 50%;
-    width: 100px;
+    width: 80px;
+    float: right;
+    padding-left: 40px;
 }
 
 #logo {
     position: relative;
     width: 100px;
+}
+
+header {
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.25);
+    z-index: 1;
+}
+
+#profile-pic-header {
+    position: relative;
+    width: 20px;
+}
+
+#profile-container {
+    /* background-color: blue; */
 }

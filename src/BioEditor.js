@@ -58,7 +58,7 @@ export default class BioEditor extends Component {
     render() {
         return (
             <>
-                <h1>Bio editor</h1>
+                {/* <h1>Bio editor</h1> */}
 
                 {this.state.editorIsVisible && (
                     <div>

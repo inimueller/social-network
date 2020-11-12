@@ -95,3 +95,28 @@ exports.getOtherProfiles = (id) => {
         [id]
     );
 };
+
+// geting 3 last users
+module.exports.getLastUsers = () => {
+    return db.query(
+        `
+        SELECT id, first, last, url FROM users 
+        ORDER BY id 
+        DESC LIMIT 3
+        `
+    );
+};
+
+// geting search matchs
+// should expect a string!
+
+module.exports.getMatchUsers = (str) => {
+    return db.query(
+        `
+        SELECT id, first, last, url FROM users
+        WHERE first ILIKE $1
+        ORDER BY first 
+        `,
+        [str + "%"]
+    );
+};

@@ -23,7 +23,7 @@ app.use(
     })
 );
 
-// i'm pretty sure this refers to the image uploading
+// i'm pretty sure this compression refers to the image uploading but idrk
 
 app.use(compression());
 
@@ -36,7 +36,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-// ALWAYS REMEMBER express and json
+// ALWAYS REMEMBER express and json!
 
 app.use(express.static("public"));
 
@@ -62,7 +62,7 @@ const uploader = multer({
     },
 });
 
-////////// ends of boilerplate
+////////// ends of uploader boilerplate
 
 ////// middlewere compiler for react (2 ports thing)
 
@@ -77,7 +77,7 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-//  ------ logged out user ------  //
+// 🚫 ------ logged out user ------ 🚫 //
 
 //////// register POST req
 
@@ -190,7 +190,7 @@ app.post("/reset/email", (req, res) => {
     }
 });
 
-// ---------- logged in user ---------- //
+// ✅ ---------- logged in user ---------- ✅ //
 
 // upload profile pic POST request
 
@@ -306,7 +306,6 @@ app.get("/user", (req, res) => {
 app.get("/api/user/:id", (req, res) => {
     const { id } = req.params;
     const { userId } = req.session;
-    console.log("{id} in get /api/user/:id:", id);
 
     // if the id is different of the id in the cookies that code should run (if not -> line 333)
 
@@ -333,15 +332,63 @@ app.get("/api/user/:id", (req, res) => {
     }
 });
 
+app.get("/api/users", (req, res) => {
+    console.log("ACCESSED GET /api/users route");
+
+    db.getLastUsers()
+        .then(({ rows }) => {
+            console.log("rows -> db.getLastUsers", rows);
+            res.json({
+                success: true,
+                rows,
+            });
+        })
+        .catch((err) => {
+            console.log({ err }); //does this work? 🤔
+        });
+});
+
+app.get(`/api/users/:search`, (req, res) => {
+    console.log("ACCESSED GET /api/:search route");
+    console.log("req.params in api/search", req.params);
+    const { search } = req.params;
+
+    db.getMatchUsers(search)
+        .then(({ rows }) => {
+            if (rows.length != 0) {
+                res.json({
+                    success: true,
+                    rows,
+                });
+            } else {
+                res.json({
+                    success: false,
+                    // error: "No users found",
+
+                    //how to display an errror messsage??? like that?
+                });
+                console.log("Not users found");
+            }
+        })
+        .catch((err) => {
+            console.log("err in /api/users/:search", err);
+        });
+});
+
 // app.get("/ini", (req, res) => {
-//     console.log("route ini does show up");
-// }); //test -> console logs are not showing up :(( -> solved by turning computer off and on LOL
+//     let ini = "testing";
+
+//     console.log(ini);
+
+//     console.log({ ini });
+// });
+
+//test -> console logs are not showing up :(( -> solved by turning computer off and on LOL
 
 // it is important that the * route is the LAST get route we have !!!!!!!!!!
 
 app.get("*", function (req, res) {
     // console.log("req.session: ", req.session);
-    // console.log("ïni");
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
