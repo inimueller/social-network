@@ -7,19 +7,22 @@ export default function FindPeople() {
     const [search, setSearch] = useState([]);
     const [error, setError] = useState([]);
 
-    // 1. investigar si api acá o en index
+    // 1. investigar si api acá o en index o en ambos
 
-    useEffect(async () => {
-        const data = await axios.get("/api/users");
-        console.log(data);
-        setUsers(data.rows);
+    useEffect(() => {
+        axios.get("/api/users").then((data) => {
+            console.log(data);
+            setUsers(data.rows);
+        });
     }, []);
 
     useEffect(() => {
         axios.get(`/api/users/${search}`).then(({ data }) => {
+            console.log(data);
             // conditionally sending error
             if (!data.success) {
-                setError(data.error);
+                setError("error");
+                setUsers([]);
             } else {
                 setError(null);
                 setUsers(data.rows);
@@ -58,6 +61,8 @@ export default function FindPeople() {
                             </Link>
                         </div>
                     ))}
+
+                {error === "error" && <p>Oooops no user found!</p>}
             </div>
         </>
     );
