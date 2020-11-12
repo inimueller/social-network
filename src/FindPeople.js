@@ -9,30 +9,22 @@ export default function FindPeople() {
 
     // 1. investigar si api acá o en index
 
-    useEffect(() => {
-        axios.get("/api/users").then(({ data }) => {
-            console.log({ data }); // let see how this console.log works
-            setUsers(data.rows);
-        });
+    useEffect(async () => {
+        const data = await axios.get("/api/users");
+        console.log(data);
+        setUsers(data.rows);
     }, []);
 
     useEffect(() => {
-        let abort;
         axios.get(`/api/users/${search}`).then(({ data }) => {
             // conditionally sending error
-
             if (!data.success) {
                 setError(data.error);
-            } else setError(null);
-
-            if (!abort) {
+            } else {
+                setError(null);
                 setUsers(data.rows);
             }
         });
-
-        return () => {
-            abort = true;
-        };
     }, [search]);
 
     return (
