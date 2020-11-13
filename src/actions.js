@@ -1,22 +1,10 @@
-import axios from "axios";
-import { bindActionCreators } from "redux";
+// will contain all of our action creator functions
+// action creator is just a function that returns an object
+// the object that is returned is called ACTION
+// every sigle action will return an object that has a type on it, like so:
 
-export async function receiveUsers() {
-    const { data } = await axios.get("/users");
-    return {
-        type: "RECEIVE_USERS",
-        users: data.users,
-    };
-}
-
-export async function makeHot(id) {
-    const { data } = await axios.post(`/hot/${id}`);
-    // console.log("data in makeHotaction: ", data);
-
-    if (data.success) {
-        return {
-            type: "MAKE_HOT",
-            id: id,
-        };
-    }
-}
+// export function fn() {
+//     return {
+//         type: "UPDATE_STH",
+//     };
+// }

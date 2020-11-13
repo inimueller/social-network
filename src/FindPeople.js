@@ -32,7 +32,7 @@ export default function FindPeople() {
 
     return (
         <>
-            <div id="search-bar" id="other-profile">
+            <div id="search-input">
                 <input
                     name="search"
                     autoComplete="off"
