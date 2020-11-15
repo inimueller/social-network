@@ -120,3 +120,44 @@ module.exports.getMatchUsers = (str) => {
         [str + "%"]
     );
 };
+
+// this queries check for friendship status and change them depending on the button status ->
+
+module.exports.checkFriendStatus = (recipient_id, sender_id) => {
+    return db.query(
+        ` SELECT * FROM friendships
+  WHERE (recipient_id = $1 AND sender_id = $2)
+  OR (recipient_id = $2 AND sender_id = $1);`,
+        [recipient_id, sender_id]
+    );
+};
+
+module.exports.sendFriendRequest = (sender_id, recipient_id, accepted) => {
+    return db.query(
+        `INSERT INTO friendships 
+        (sender_id, recipient_id, accepted) 
+        VALUES ($1, $2, $3);
+`,
+        [sender_id, recipient_id, accepted]
+    );
+};
+
+module.exports.acceptFriendRequest = (recipient_id, sender_id, accepted) => {
+    return db.query(
+        `UPDATE friendships 
+        SET accepted=$3 
+        WHERE sender_id=$2 AND recipient_id=$1`,
+        [recipient_id, sender_id, accepted]
+    );
+};
+
+module.exports.cancelFriendRequest = (recipient_id, sender_id) => {
+    return db.query(
+        `  DELETE FROM friendships
+        WHERE (recipient_id = $1 AND sender_id = $2)
+        OR (recipient_id = $2 AND sender_id = $1)
+        ;
+        `,
+        [recipient_id, sender_id]
+    );
+};

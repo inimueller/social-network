@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
 
-export default function FriendButton({ id }) {
+export default function FriendButton({ otherUserId }) {
     const [buttonText, setButtonText] = useState(""); // double check if empty string
-    const [error, setError] = useState(false); //default -> false (Andrea said)
+    const [error, setError] = useState(false); //default -> false (Andrea said, but why?)
 
     useEffect(() => {
         axios
-            .get(`/friendship/${id}`)
+            .get(`/friendStatus/${otherUserId}`)
             .then(({ data }) => {
                 console.log({ data });
-                setButtonText(data.message);
+                setButtonText(data.buttonText);
             })
             .catch((err) => setError(err));
-    }, [buttonText]);
+    }, []);
 
     function buttonClick() {
         axios
-            .post(`/friendship/${buttonText}`, {
+            .post(`/friendStatus/${buttonText}`, {
                 id: otherUserId,
             })
             .then(({ data }) => {

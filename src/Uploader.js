@@ -18,14 +18,20 @@ export default class Uploader extends React.Component {
         this.props.methodInApp(this.state.url);
     }
 
+    // code written by Piotr to get a preview of the new profile picture:
+
     handleChange(e) {
-        console.log("e.target.value: ", e.target.value);
-        console.log("img path:", e);
+        var reader = new FileReader();
+        reader.onload = function () {
+            var dataURL = reader.result;
+            var card = document.getElementById("card");
+            card.src = dataURL;
+        };
+
+        reader.readAsDataURL(e.target.files[0]);
         this.setState(
             {
                 [e.target.name]: e.target.files[0],
-                //think how to make temporarily file to be displayed after change
-                url: e.target.files[0].name,
             },
             () => {
                 console.log("this.state: ", this.state);

@@ -154,9 +154,9 @@ app.post("/reset/email", (req, res) => {
                     db.addCode(resetCode, email)
                         .then(() => {
                             let recipient = email;
-                            let message = `To reset yuor password please copy and paste this code: ${resetCode}`;
+                            let buttonText = `To reset yuor password please copy and paste this code: ${resetCode}`;
                             let subject = `Here is your secret code`;
-                            ses.sendEmail(recipient, message, subject)
+                            ses.sendEmail(recipient, buttonText, subject)
                                 .then(() => {
                                     res.json({
                                         success: true,
@@ -332,6 +332,8 @@ app.get("/api/user/:id", (req, res) => {
     }
 });
 
+// get -> last 3 users
+
 app.get("/api/users", (req, res) => {
     console.log("ACCESSED GET /api/users route");
 
@@ -348,8 +350,9 @@ app.get("/api/users", (req, res) => {
         });
 });
 
+// get -> it dinamically calls the db query of users whose names match the user's input
+
 app.get(`/api/users/:search`, (req, res) => {
-    console.log("ACCESSED GET /api/:search route");
     console.log("req.params in api/search", req.params);
     const { search } = req.params;
 
@@ -372,6 +375,40 @@ app.get(`/api/users/:search`, (req, res) => {
         })
         .catch((err) => {
             console.log("err in /api/users/:search", err);
+        });
+});
+
+// get -> friendship status
+
+app.get("/friendStatus/:otherUserId", (req, res) => {
+    const { otherUserId } = req.params;
+    const { id } = req.session.userId;
+    console.log(req.params);
+
+    // determines the initial status between logged in user (id in cookie)
+    // and the user who's page we're viewing BEFORE user clicks the button
+
+    db.checkFriendStatus(otherUserId, id)
+        .then(({ rows }) => {
+            console.log("rows in checkFriendStatus : ", rows);
+            if (!rows[0]) {
+                res.json({ buttonText: "Send Friend Request" });
+            } else if (rows[0].accepted) {
+                res.json({ buttonText: "Unfriend" });
+            } else if (!rows[0].accepted) {
+                if (rows[0].recipient_id == id) {
+                    res.json({
+                        buttonText: "Cancel Friend Request",
+                    });
+                } else {
+                    res.json({
+                        buttonText: "Accept Friend Request",
+                    });
+                }
+            }
+        })
+        .catch((err) => {
+            console.log("error in get friendStatus: ", err);
         });
 });
 
