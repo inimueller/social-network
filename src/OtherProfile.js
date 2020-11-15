@@ -27,7 +27,7 @@ export default class OtherProfile extends React.Component {
                         url: response.data.url,
                         bio: response.data.bio,
                     });
-                    console.log("hello moni: ", this.state);
+                    console.log("hello thanks moni: ", this.state);
                 }
             })
             .catch((err) => {
