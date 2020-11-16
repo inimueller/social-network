@@ -123,11 +123,11 @@ module.exports.getMatchUsers = (str) => {
 
 // this queries check for friendship status and change them depending on the button status ->
 
-module.exports.checkFriendStatus = (recipient_id, sender_id) => {
+module.exports.checkFriendStatus = (sender_id, recipient_id) => {
     return db.query(
         ` SELECT * FROM friendships
-  WHERE (recipient_id = $1 AND sender_id = $2)
-  OR (recipient_id = $2 AND sender_id = $1);`,
+  WHERE (recipient_id = $2 AND sender_id = $1)
+  OR (recipient_id = $1 AND sender_id = $2);`,
         [recipient_id, sender_id]
     );
 };

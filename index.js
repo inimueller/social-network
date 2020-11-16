@@ -287,16 +287,16 @@ app.post("/friendStatus/:buttonText", (req, res) => {
     const { buttonText } = req.params;
     const { userId } = req.session;
 
-    // console.log({ id });
-    // console.log({ userId });
-    // console.log({ buttonText });
+    console.log({ id });
+    console.log({ userId });
+    console.log({ buttonText });
 
     if (buttonText == "Send Friend Request") {
         db.sendFriendRequest(userId, id)
 
             .then(({ rows }) => {
                 res.json({ buttonText: "Cancel Friend Request" });
-                res.json({ buttonText: "Cancel Friend Request" });
+                // res.json({ buttonText: "Cancel Friend Request" });
             })
             .catch((err) => {
                 console.log("error in sendFriendRequest:", err);
@@ -434,13 +434,16 @@ app.get(`/api/users/:search`, (req, res) => {
 
 app.get("/friendStatus/:otherUserId", (req, res) => {
     const { otherUserId } = req.params;
-    const { id } = req.session.userId;
+    const { userId } = req.session;
     console.log(req.params);
 
     // determines the initial status between logged in user (id in cookie)
     // and the user who's page we're viewing BEFORE user clicks the button
+    console.log("otherUserId;, ", otherUserId);
+    console.log("id;, ", userId);
+    console.log("req.session: ", req.session);
 
-    db.checkFriendStatus(otherUserId, id)
+    db.checkFriendStatus(otherUserId, userId)
         .then(({ rows }) => {
             console.log("rows in checkFriendStatus : ", rows);
             if (!rows[0]) {
@@ -448,7 +451,7 @@ app.get("/friendStatus/:otherUserId", (req, res) => {
             } else if (rows[0].accepted) {
                 res.json({ buttonText: "Unfriend" });
             } else if (!rows[0].accepted) {
-                if (rows[0].recipient_id == id) {
+                if (rows[0].recipient_id == userId) {
                     res.json({
                         buttonText: "Cancel Friend Request",
                     });
