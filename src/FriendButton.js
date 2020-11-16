@@ -9,21 +9,22 @@ export default function FriendButton({ otherUserId }) {
         axios
             .get(`/friendStatus/${otherUserId}`)
             .then(({ data }) => {
-                console.log({ data });
+                // console.log({ data });
                 setButtonText(data.buttonText);
             })
             .catch((err) => setError(err));
     }, []);
 
     function buttonClick() {
+        // console.log("onClick working");
         axios
             .post(`/friendStatus/${buttonText}`, {
                 id: otherUserId,
             })
             .then(({ data }) => {
-                console.log("data", data);
+                // console.log("data", data);
 
-                setButtonText();
+                setButtonText(data.buttonText);
             })
             .catch((err) => setError(err));
     }

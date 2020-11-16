@@ -8,7 +8,7 @@ export default class OtherProfile extends React.Component {
         this.state = {};
     }
     componentDidMount() {
-        console.log("this.props.match", this.props.match);
+        // console.log("this.props.match", this.props.match);
         // we'll want to use this.props.match.params.id to tell our server for which user
         // we want to get information for, our server should also check and see if we are
         // trying to access our own profile, or simply send back the id of our logged
@@ -17,7 +17,7 @@ export default class OtherProfile extends React.Component {
         axios
             .get(`/api/user/${this.props.match.params.id}`)
             .then((response) => {
-                console.log("hello hhhhhhh: ", response);
+                // console.log("response in componentDidMount: ", response);
 
                 if (response.data.editing) {
                     this.props.history.push("/");
@@ -28,7 +28,7 @@ export default class OtherProfile extends React.Component {
                         url: response.data.url,
                         bio: response.data.bio,
                     });
-                    console.log("hello thanks moni: ", this.state);
+                    // console.log("hello thanks moni: ", this.state);
                 }
             })
             .catch((err) => {
@@ -52,6 +52,7 @@ export default class OtherProfile extends React.Component {
                         {this.state.first} {this.state.last}
                     </h4>
                     <p>{this.state.bio}</p>
+                    {/* <FriendButton otherUserId={this.state.id} /> */}
                     <FriendButton otherUserId={this.props.match.params.id} />
                 </div>
             </>

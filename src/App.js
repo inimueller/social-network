@@ -37,7 +37,7 @@ export default class App extends React.Component {
                     imgUrl: url,
                 });
                 // console.log(this.state);
-                console.log("data in componentDidMount: ", data);
+                // console.log("data in componentDidMount: ", data);
             })
             .catch((e) => {
                 console.log("error in axios: ", e);

@@ -276,6 +276,53 @@ app.post("/bio", (req, res) => {
         });
 });
 
+// FriendButton post request
+
+app.post("/friendStatus/:buttonText", (req, res) => {
+    const { id } = req.body;
+    const { buttonText } = req.params;
+    const { userId } = req.session;
+
+    // console.log({ id });
+    // console.log({ userId });
+    // console.log({ buttonText });
+
+    if (buttonText == "Send Friend Request") {
+        db.sendFriendRequest(userId, id)
+
+            .then(({ rows }) => {
+                res.json({ buttonText: "Cancel Friend Request" });
+            })
+            .catch((err) => {
+                console.log("error in sendFriendRequest:", err);
+                console.log("req.session.userId: ", userId);
+            });
+    } else if (buttonText == "Unfriend") {
+        db.cancelFriendRequest(id, userId)
+            .then(({ rows }) => {
+                res.json({ buttonText: "Send Friend Request" });
+            })
+            .catch((err) => {
+                console.log("error in cancelFriendRequest: ", err);
+            });
+    } else if (buttonText == "Accept Friend Request") {
+        db.acceptFriendRequest(userId, id)
+            .then(({ rows }) => {
+                res.json({ buttonText: "Unfriend" });
+            })
+            .catch((err) => {
+                console.log("error in acceptFriendRequest: ", err);
+            });
+    } else if (buttonText == "Cancel Friend Request") {
+        db.cancelFriendRequest(id, userId)
+            .then(({ rows }) => {
+                res.json({ buttonText: "Send Friend Request" });
+            })
+            .catch((err) => {
+                console.log("error in cancelFriendRequest: ", err);
+            });
+    }
+});
 /////// GET REQUESTS!!!!!!!!!! //////
 
 app.get("/welcome", (req, res) => {
