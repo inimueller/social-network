@@ -24,7 +24,7 @@ if (!userIsLoggedIn) {
     init(store);
     elem = (
         <Provider store={store}>
-            <App />;
+            <App />
         </Provider>
     );
 }

@@ -10,26 +10,39 @@ body {
 /* TEXT  */
 
 h1 {
-    font-family: monospace;
+    font-family: "Dosis", sans-serif;
 }
 
 h3 {
-    font-family: monospace;
+    font-family: "Dosis", sans-serif;
 }
 
 p {
-    font-family: monospace;
+    font-family: "Open Sans", sans-serif;
 }
 
 img {
     /* float: right; */
     width: 200px;
+    /* border-radius: 5%; */
+}
+
+#textarea {
+    font-family: "Open Sans", sans-serif;
+}
+
+#bio-itself {
+    font-family: "Open Sans", sans-serif;
 }
 
 #profilePic {
+    border-radius: 5%;
+
     position: relative;
-    border-radius: 50%;
-    width: 80px;
+    /* border-radius: 50%; */
+    width: 100px;
+    margin-top: 20px;
+    margin-right: 20px;
     float: right;
     padding-left: 40px;
 }
@@ -52,6 +65,45 @@ header {
     width: 20px;
 }
 
-#profile-container {
+#profile-pic-container {
     /* background-color: blue; */
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+button {
+    font-family: "Open Sans", sans-serif;
+}
+
+#other-profile-img {
+    border-radius: 5%;
+    margin: 10px 10px 10px 10px;
+    /* padding: 10px 10px 10px 10px; */
+}
+
+#other-profile {
+    margin-left: 30px;
+}
+
+#profile-container {
+    margin-left: 30px;
+}
+
+#uploader {
+    margin-left: 30px;
+}
+
+#search-input {
+    margin-top: 30px;
+    margin-left: 30px;
+    border-radius: 40%;
+}
+
+input {
+    font-family: "Open Sans", sans-serif;
+}
+
+img#card {
+    display: flex;
+    border-radius: 5%;
 }

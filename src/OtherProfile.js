@@ -40,17 +40,16 @@ export default class OtherProfile extends React.Component {
         return (
             <>
                 <div id="other-profile">
-                    <h1> Hi am the OtherProfile</h1>
+                    <h1>
+                        {this.state.first} {this.state.last}
+                    </h1>{" "}
                     <img
+                        id="other-profile-img"
                         src={
                             this.state.url ||
                             "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
                         }
                     />
-
-                    <h4>
-                        {this.state.first} {this.state.last}
-                    </h4>
                     <p>{this.state.bio}</p>
                     {/* <FriendButton otherUserId={this.state.id} /> */}
                     <FriendButton otherUserId={this.props.match.params.id} />

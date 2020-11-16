@@ -500,44 +500,44 @@ SOCKET CODE goes here
 we can identify users based on their socket id
 
 -> hey server, whenever a user logs in, run this function:
-*/
+// */
 
-io.on("connection", (socket) => {
-    // console.log(`socket with the id ${socket.id} is now connected`);
+// io.on("connection", (socket) => {
+//     // console.log(`socket with the id ${socket.id} is now connected`);
 
-    //sending messages TO client FROM server
-    //it expects 2 arguments
-    //we use sockets to emit events, in this case, an event called "welcome"
-    //the second argument we pass is the data we wanna send to the client when this message is sent
+//     //sending messages TO client FROM server
+//     //it expects 2 arguments
+//     //we use sockets to emit events, in this case, an event called "welcome"
+//     //the second argument we pass is the data we wanna send to the client when this message is sent
 
-    // socket.emit sends a message to only one client
-    // it will send a message to the client who just connected and NO ONE ELSE
+//     // socket.emit sends a message to only one client
+//     // it will send a message to the client who just connected and NO ONE ELSE
 
-    socket.emit("welcome", {
-        name: "ivana",
-    });
+//     socket.emit("welcome", {
+//         name: "ivana",
+//     });
 
-    // io.emit sends a message to EVERY CONNECTED CLIENT
-    io.emit("messageSentWithIoEmit", {
-        id: socket.id,
-    });
+//     // io.emit sends a message to EVERY CONNECTED CLIENT
+//     io.emit("messageSentWithIoEmit", {
+//         id: socket.id,
+//     });
 
-    // socket.broadcast.emit sends a message to EVERY CONNECTED CLIENT
-    // EXCEPT!!! for the one that just connected
+//     // socket.broadcast.emit sends a message to EVERY CONNECTED CLIENT
+//     // EXCEPT!!! for the one that just connected
 
-    socket.broadcast.emit("broadcastEmitFun", {
-        socketId: socket.id,
-    });
+//     socket.broadcast.emit("broadcastEmitFun", {
+//         socketId: socket.id,
+//     });
 
-    //listening for a message from the client
-    socket.on("messageFromClient", (data) => {
-        // console.log("here is the dat the client sent me: ", data);
-    });
+//     //listening for a message from the client
+//     socket.on("messageFromClient", (data) => {
+//         // console.log("here is the dat the client sent me: ", data);
+//     });
 
-    // how can we tell when a user leaves?
-    // either by logging out or closing the tab
+//     // how can we tell when a user leaves?
+//     // either by logging out or closing the tab
 
-    socket.on("disconnect", () => {
-        // console.log("user " + socket.id + " has disconnected");
-    });
-});
+//     socket.on("disconnect", () => {
+//         // console.log("user " + socket.id + " has disconnected");
+//     });
+// });
