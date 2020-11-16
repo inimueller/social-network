@@ -12,16 +12,15 @@ export const init = (store) => {
         socket.on("welcome", (msg) => {
             // here i'm passing a variable to this callback function
             // this variable will have any data received from the server
-
-            console.log("hopefully we see this: ", msg);
+            // console.log("hopefully we see this: ", msg);
         });
 
         socket.on("messageSentWithIoEmit", (payload) => {
-            console.log("payload from messageSentWithIoEmit: ", payload);
+            // console.log("payload from messageSentWithIoEmit: ", payload);
         });
 
         socket.on("broadcastEmitFun", (data) => {
-            console.log("broadcastEmitFun data: ", data);
+            // console.log("broadcastEmitFun data: ", data);
         });
 
         //sending a message to the server

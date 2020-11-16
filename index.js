@@ -287,32 +287,32 @@ app.post("/friendStatus/:buttonText", (req, res) => {
     const { buttonText } = req.params;
     const { userId } = req.session;
 
-    console.log({ id });
-    console.log({ userId });
-    console.log({ buttonText });
+    // console.log({ id });
+    // console.log({ userId });
+    // console.log({ buttonText });
 
     if (buttonText == "Send Friend Request") {
         db.sendFriendRequest(userId, id)
 
-            .then(({ rows }) => {
+            .then(() => {
                 res.json({ buttonText: "Cancel Friend Request" });
                 // res.json({ buttonText: "Cancel Friend Request" });
             })
             .catch((err) => {
                 console.log("error in sendFriendRequest:", err);
-                console.log("req.session.userId: ", userId);
+                // console.log("req.session.userId: ", userId);
             });
     } else if (buttonText == "Unfriend") {
         db.cancelFriendRequest(id, userId)
-            .then(({ rows }) => {
+            .then(() => {
                 res.json({ buttonText: "Send Friend Request" });
             })
             .catch((err) => {
                 console.log("error in cancelFriendRequest: ", err);
             });
     } else if (buttonText == "Accept Friend Request") {
-        db.acceptFriendRequest(userId, id)
-            .then(({ rows }) => {
+        db.acceptFriendRequest(userId, id, true)
+            .then(() => {
                 res.json({ buttonText: "Unfriend" });
             })
             .catch((err) => {
@@ -320,7 +320,7 @@ app.post("/friendStatus/:buttonText", (req, res) => {
             });
     } else if (buttonText == "Cancel Friend Request") {
         db.cancelFriendRequest(id, userId)
-            .then(({ rows }) => {
+            .then(() => {
                 res.json({ buttonText: "Send Friend Request" });
             })
             .catch((err) => {
@@ -439,13 +439,14 @@ app.get("/friendStatus/:otherUserId", (req, res) => {
 
     // determines the initial status between logged in user (id in cookie)
     // and the user who's page we're viewing BEFORE user clicks the button
-    console.log("otherUserId;, ", otherUserId);
-    console.log("id;, ", userId);
-    console.log("req.session: ", req.session);
+    // ------- //
+    // console.log("otherUserId;, ", otherUserId);
+    // console.log("id;, ", userId);
+    // console.log("req.session: ", req.session);
 
     db.checkFriendStatus(otherUserId, userId)
         .then(({ rows }) => {
-            console.log("rows in checkFriendStatus : ", rows);
+            // console.log("rows in checkFriendStatus : ", rows);
             if (!rows[0]) {
                 res.json({ buttonText: "Send Friend Request" });
             } else if (rows[0].accepted) {
@@ -453,11 +454,11 @@ app.get("/friendStatus/:otherUserId", (req, res) => {
             } else if (!rows[0].accepted) {
                 if (rows[0].recipient_id == userId) {
                     res.json({
-                        buttonText: "Cancel Friend Request",
+                        buttonText: "Accept Friend Request",
                     });
                 } else {
                     res.json({
-                        buttonText: "Accept Friend Request",
+                        buttonText: "Cancel Friend Request",
                     });
                 }
             }
@@ -502,7 +503,7 @@ we can identify users based on their socket id
 */
 
 io.on("connection", (socket) => {
-    console.log(`socket with the id ${socket.id} is now connected`);
+    // console.log(`socket with the id ${socket.id} is now connected`);
 
     //sending messages TO client FROM server
     //it expects 2 arguments
@@ -530,13 +531,13 @@ io.on("connection", (socket) => {
 
     //listening for a message from the client
     socket.on("messageFromClient", (data) => {
-        console.log("jere is the dat the client sent me: ", data);
+        // console.log("here is the dat the client sent me: ", data);
     });
 
     // how can we tell when a user leaves?
     // either by logging out or closing the tab
 
     socket.on("disconnect", () => {
-        console.log("user " + socket.id + " has disconnected");
+        // console.log("user " + socket.id + " has disconnected");
     });
 });
