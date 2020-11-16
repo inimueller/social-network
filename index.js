@@ -13,6 +13,10 @@ const uidSafe = require("uid-safe");
 const path = require("path");
 const s3Url = "https://s3.amazonaws.com/spicedling/";
 
+//socket.io requirement statements ->
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
+
 // 1. MIDDLEWARE
 
 // cookies
@@ -292,6 +296,7 @@ app.post("/friendStatus/:buttonText", (req, res) => {
 
             .then(({ rows }) => {
                 res.json({ buttonText: "Cancel Friend Request" });
+                res.json({ buttonText: "Cancel Friend Request" });
             })
             .catch((err) => {
                 console.log("error in sendFriendRequest:", err);
@@ -481,6 +486,54 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(8080, function () {
+server.listen(8080, function () {
     console.log("I'm listening.");
+});
+
+/* 
+
+SOCKET CODE goes here
+we can identify users based on their socket id
+
+-> hey server, whenever a user logs in, run this function:
+*/
+
+io.on("connection", (socket) => {
+    console.log(`socket with the id ${socket.id} is now connected`);
+
+    //sending messages TO client FROM server
+    //it expects 2 arguments
+    //we use sockets to emit events, in this case, an event called "welcome"
+    //the second argument we pass is the data we wanna send to the client when this message is sent
+
+    // socket.emit sends a message to only one client
+    // it will send a message to the client who just connected and NO ONE ELSE
+
+    socket.emit("welcome", {
+        name: "ivana",
+    });
+
+    // io.emit sends a message to EVERY CONNECTED CLIENT
+    io.emit("messageSentWithIoEmit", {
+        id: socket.id,
+    });
+
+    // socket.broadcast.emit sends a message to EVERY CONNECTED CLIENT
+    // EXCEPT!!! for the one that just connected
+
+    socket.broadcast.emit("broadcastEmitFun", {
+        socketId: socket.id,
+    });
+
+    //listening for a message from the client
+    socket.on("messageFromClient", (data) => {
+        console.log("jere is the dat the client sent me: ", data);
+    });
+
+    // how can we tell when a user leaves?
+    // either by logging out or closing the tab
+
+    socket.on("disconnect", () => {
+        console.log("user " + socket.id + " has disconnected");
+    });
 });
