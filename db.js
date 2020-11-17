@@ -121,7 +121,7 @@ module.exports.getMatchUsers = (str) => {
     );
 };
 
-// this queries check for friendship status and change them depending on the button status ->
+// these queries check for friendship status and change them depending on the button status ->
 
 module.exports.checkFriendStatus = (sender_id, recipient_id) => {
     return db.query(
@@ -159,5 +159,19 @@ module.exports.cancelFriendRequest = (recipient_id, sender_id) => {
         ;
         `,
         [recipient_id, sender_id]
+    );
+};
+
+// this query get all of your friends
+
+module.exports.getFriends = (id) => {
+    return db.query(
+        ` SELECT users.id, first, last, url, accepted
+  FROM friendships
+  JOIN users
+  ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+  OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+  OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`,
+        [id]
     );
 };

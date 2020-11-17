@@ -9,6 +9,8 @@ import axios from "./axios";
 import OtherProfile from "./OtherProfile";
 import { BrowserRouter, Route } from "react-router-dom";
 import FindPeople from "./FindPeople";
+import Friends from "./Friends";
+import Chat from "./Chat";
 
 export default class App extends React.Component {
     constructor() {
@@ -86,6 +88,9 @@ export default class App extends React.Component {
                         />
                     </div>
                 </header>
+                {/* <div>
+                    <FindPeople />
+                </div> */}
                 <div>
                     <Route
                         exact
@@ -116,7 +121,14 @@ export default class App extends React.Component {
                 </div>
 
                 <div>
+                    <Route path="/friends" render={() => <Friends />} />
+                </div>
+
+                <div>
                     <Route path="/users" render={() => <FindPeople />} />
+                </div>
+                <div>
+                    <Route path="/chat" render={() => <Chat />} />
                 </div>
 
                 <div>

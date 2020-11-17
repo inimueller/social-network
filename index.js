@@ -19,13 +19,27 @@ const io = require("socket.io")(server, { origins: "localhost:8080" });
 
 // 1. MIDDLEWARE
 
-// cookies
+// cookies before socket //
+/*
 app.use(
     cookieSession({
         secret: "I'm always hungry",
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
+*/
+
+// 2. COOKIES AFTER SOCKET!
+
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 // i'm pretty sure this compression refers to the image uploading but idrk
 
@@ -468,6 +482,22 @@ app.get("/friendStatus/:otherUserId", (req, res) => {
         });
 });
 
+// this is where I see my friends (and wannabes?)
+
+app.get("/getFriends", (req, res) => {
+    const { userId } = req.session;
+    console.log({ userId });
+
+    db.getFriends(userId)
+        .then(({ rows }) => {
+            res.json({ rows });
+            console.log("rows in getFriends : ", rows);
+        })
+        .catch((err) => {
+            console.log("error in getFriends", err);
+        });
+});
+
 // app.get("/ini", (req, res) => {
 //     let ini = "testing";
 
@@ -497,47 +527,91 @@ server.listen(8080, function () {
 /* 
 
 SOCKET CODE goes here
+
+*/
+
+io.on("connection", (socket) => {
+    console.log(`socket with id ${socket.id} just connected `);
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    //we are adding a double layer of protection and making sure that only users
+    //with the right cookie are recognised as connected sockets
+
+    // RETRIEVING OUR CHAT HISTORY
+    // 1. need to get our chat history from the db
+    // 2. once we have our chat history we want to emit the chats to all our clients
+    // sth like db.getMsgs().then(data=> blablabla)
+    //  we do this with->
+
+    io.emit(
+        "chatHistory",
+        "here we will send an array from the db with last 10 msgs"
+    );
+    // 1st argument is what we will have to listen for on the client side
+    // 2nd argument is the dataload we want to send along
+
+    // RECEIVING A NEW MESSAGE FROM CONNECTED SOCKET
+    socket.on("My amazing new msg", (newMsg) => {
+        // 1st argument is the key
+        // 2nd argument is a callback function containing the newMsg
+        console.log("received new message from client: ", newMsg);
+        //we want to know who sent the message
+        console.log("author of the message: ", socket.request.session.userId);
+
+        // we need to add this msg to the chat table
+        // we also want to retrieve the info of the author of the msg (first, last and url) FROM our user table
+        // compose a msg OBJECT containing the user info and the new msg that got sent
+        // make sure if structurally matches with what your msg objects in the chat history look like
+        socket.emit("newMsgToAddToHistory", newMsg);
+    });
+});
+
+/* 
+
+IVANAS CODE 
 we can identify users based on their socket id
 
 -> hey server, whenever a user logs in, run this function:
-// */
 
-// io.on("connection", (socket) => {
-//     // console.log(`socket with the id ${socket.id} is now connected`);
+io.on("connection", (socket) => {
+    // console.log(`socket with the id ${socket.id} is now connected`);
 
-//     //sending messages TO client FROM server
-//     //it expects 2 arguments
-//     //we use sockets to emit events, in this case, an event called "welcome"
-//     //the second argument we pass is the data we wanna send to the client when this message is sent
+    //sending messages TO client FROM server
+    //it expects 2 arguments
+    //we use sockets to emit events, in this case, an event called "welcome"
+    //the second argument we pass is the data we wanna send to the client when this message is sent
 
-//     // socket.emit sends a message to only one client
-//     // it will send a message to the client who just connected and NO ONE ELSE
+    // socket.emit sends a message to only one client
+    // it will send a message to the client who just connected and NO ONE ELSE
 
-//     socket.emit("welcome", {
-//         name: "ivana",
-//     });
+    socket.emit("welcome", {
+        name: "ivana",
+    });
 
-//     // io.emit sends a message to EVERY CONNECTED CLIENT
-//     io.emit("messageSentWithIoEmit", {
-//         id: socket.id,
-//     });
+    // io.emit sends a message to EVERY CONNECTED CLIENT
+    io.emit("messageSentWithIoEmit", {
+        id: socket.id,
+    });
 
-//     // socket.broadcast.emit sends a message to EVERY CONNECTED CLIENT
-//     // EXCEPT!!! for the one that just connected
+    // socket.broadcast.emit sends a message to EVERY CONNECTED CLIENT
+    // EXCEPT!!! for the one that just connected
 
-//     socket.broadcast.emit("broadcastEmitFun", {
-//         socketId: socket.id,
-//     });
+    socket.broadcast.emit("broadcastEmitFun", {
+        socketId: socket.id,
+    });
 
-//     //listening for a message from the client
-//     socket.on("messageFromClient", (data) => {
-//         // console.log("here is the dat the client sent me: ", data);
-//     });
+    //listening for a message from the client
+    socket.on("messageFromClient", (data) => {
+        // console.log("here is the dat the client sent me: ", data);
+    });
 
-//     // how can we tell when a user leaves?
-//     // either by logging out or closing the tab
+    // how can we tell when a user leaves?
+    // either by logging out or closing the tab
 
-//     socket.on("disconnect", () => {
-//         // console.log("user " + socket.id + " has disconnected");
-//     });
-// });
+    socket.on("disconnect", () => {
+        // console.log("user " + socket.id + " has disconnected");
+    });
+});
+*/

@@ -40,7 +40,6 @@ export default function FindPeople() {
                     onChange={(e) => setSearch(e.target.value)}
                     defaultValue={search}
                 ></input>
-                {/* {error && <p>{error}</p>} */}
             </div>
             <div>
                 {users &&
