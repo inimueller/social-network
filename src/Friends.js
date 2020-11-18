@@ -64,6 +64,7 @@ export default function Friends() {
                                     >
                                         <h3>{user.first + " " + user.last}</h3>
                                         <img
+                                            className="profile-pic-friends"
                                             src={
                                                 user.url ||
                                                 "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697.png"
@@ -105,11 +106,15 @@ export default function Friends() {
                                         }}
                                         key={user.id}
                                     >
-                                        <Link to={`user/${user.id}`}>
+                                        <Link
+                                            style={{ textDecoration: "none" }}
+                                            to={`user/${user.id}`}
+                                        >
                                             <h3>
                                                 {user.first + " " + user.last}
                                             </h3>
                                             <img
+                                                className="profile-pic-friends"
                                                 src={
                                                     user.url ||
                                                     "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"

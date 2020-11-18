@@ -27,7 +27,7 @@ p {
     font-family: "Open Sans", sans-serif;
 }
 
-img {
+.profile-pic-friends {
     /* float: right; */
     width: 200px;
     border-radius: 5%;
