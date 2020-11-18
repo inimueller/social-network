@@ -30,6 +30,7 @@ export default class OtherProfile extends React.Component {
                     });
                     // console.log("hello thanks moni: ", this.state);
                 }
+                // console.log("para julio: ", this.props.match.params.id);
             })
             .catch((err) => {
                 console.log("error in axios componentDidMount : ", err);

@@ -1,6 +1,7 @@
 import React from "react";
 import BioEditor from "./BioEditor";
-import ProfilePic from "./ProfilePic";
+// import ProfilePic from "./ProfilePic";
+//I still want to render this!
 
 export default function Profile(props) {
     return (
@@ -8,6 +9,7 @@ export default function Profile(props) {
             <div id="profile-container">
                 <div id="profile">
                     <h1>{props.first}'s Profile</h1>
+
                     <h3>Tell us something about yourself:</h3>
                     <div id="bio-modal">
                         <div id="bio">

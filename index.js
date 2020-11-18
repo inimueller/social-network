@@ -230,6 +230,7 @@ app.post("/images", uploader.single("file"), s3.upload, (req, res) => {
     } else {
         res.json({ success: false });
     }
+    console.log(userId);
 });
 
 // verify password POST request
@@ -310,7 +311,6 @@ app.post("/friendStatus/:buttonText", (req, res) => {
 
             .then(() => {
                 res.json({ buttonText: "Cancel Friend Request" });
-                // res.json({ buttonText: "Cancel Friend Request" });
             })
             .catch((err) => {
                 console.log("error in sendFriendRequest:", err);
@@ -342,7 +342,7 @@ app.post("/friendStatus/:buttonText", (req, res) => {
             });
     }
 });
-/////// GET REQUESTS!!!!!!!!!! //////
+/////// 🧲 GET REQUESTS!!!!!!!!!! 🧲  //////
 
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -356,7 +356,7 @@ app.get("/welcome", (req, res) => {
 
 app.get("/user", (req, res) => {
     const { userId } = req.session;
-    // console.log(userId);
+    console.log(userId);
     db.getUserById(userId)
         .then(({ rows }) => {
             // console.log("rows in index /user: ", rows);

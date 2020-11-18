@@ -132,13 +132,13 @@ module.exports.checkFriendStatus = (sender_id, recipient_id) => {
     );
 };
 
-module.exports.sendFriendRequest = (sender_id, recipient_id, accepted) => {
+module.exports.sendFriendRequest = (sender_id, recipient_id) => {
     return db.query(
         `INSERT INTO friendships 
-        (sender_id, recipient_id, accepted) 
-        VALUES ($1, $2, $3);
+        (sender_id, recipient_id) 
+        VALUES ($1, $2);
 `,
-        [sender_id, recipient_id, accepted]
+        [sender_id, recipient_id]
     );
 };
 

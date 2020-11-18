@@ -61,7 +61,6 @@ export default class App extends React.Component {
     }
 
     updateBio(arg) {
-        // this.setState({ bio: arg }),
         this.setState({ bio: arg });
         () => {
             console.log("state in App after updateBio", this.state);

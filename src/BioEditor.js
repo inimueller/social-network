@@ -33,8 +33,8 @@ export default class BioEditor extends Component {
         );
     }
 
-    updateBio(arg) {
-        console.log("console.log in updateBio", arg);
+    updateBioComponent(arg) {
+        console.log("UpdateBio", arg);
         this.props.updateBio(arg);
     }
 
@@ -47,7 +47,7 @@ export default class BioEditor extends Component {
                 this.setState({
                     bio: response.data.bio,
                 });
-                this.updateBio(response.data.bio);
+                this.updateBioComponent(response.data);
                 this.toggleBioEditor();
             })
             .catch((err) => {
@@ -66,7 +66,6 @@ export default class BioEditor extends Component {
                             id="textarea"
                             name="bio"
                             onChange={(e) => this.handleChange(e)}
-                            // need to work or prepopulation the textfield
                             value={this.state.bio}
                         />
                     </div>

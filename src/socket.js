@@ -9,8 +9,7 @@ export const init = (store) => {
         socket = io.connect();
     }
     socket.on("chatHistory", (chatMsgs) => {
-        console.log("last 10 chat msgs: ", chatMsgs);
-
+        // console.log("last 10 chat msgs: ", chatMsgs);
         //what you want to do with this once it logs the actual chat history is:
         // dispatch an action that then adds the history to redux global state
     });

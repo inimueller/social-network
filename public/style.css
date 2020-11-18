@@ -13,8 +13,14 @@ h1 {
     font-family: "Dosis", sans-serif;
 }
 
+h2 {
+    font-family: "Dosis", sans-serif;
+}
+
 h3 {
     font-family: "Dosis", sans-serif;
+    color: darkgoldenrod;
+    text-decoration: none;
 }
 
 p {
@@ -24,7 +30,12 @@ p {
 img {
     /* float: right; */
     width: 200px;
-    /* border-radius: 5%; */
+    border-radius: 5%;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.2); /* border-radius: 5%; */
+}
+
+Link {
+    text-decoration: none;
 }
 
 #textarea {
@@ -47,13 +58,13 @@ img {
     padding-left: 40px;
 }
 
-#logo {
+img#logo {
     position: relative;
     width: 100px;
 }
 
 header {
-    background-color: whitesmoke;
+    /* background-color: whitesmoke; */
     display: flex;
     justify-content: space-between;
     box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
