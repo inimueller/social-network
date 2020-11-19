@@ -44,29 +44,69 @@ export default function Chat() {
 
     return (
         <div
-            id="chat-container"
-            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+            style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "40px",
+            }}
         >
-            <h1>Chat</h1>
-            <div id="chat-messages" ref={elemRef}>
-                {chatMessages &&
-                    chatMessages.map((each) => (
-                        <div key={each.id}>
-                            <p>{each.message}</p>
-                            <p style={{ color: "darkgoldenrod" }}>
-                                {each.first}
-                                &nbsp;
-                                {each.last}
-                            </p>
-                        </div>
-                    ))}
+            <div>
+                <div>
+                    <h1>Chat</h1>
+                </div>
+                <div
+                    id="chat-container"
+                    style={{
+                        boxShadow: "0px 0px 50px rgba(0, 0, 0, 0.1)",
+                        borderRadius: "10px",
+                        width: "400px",
+                        justifyContent: "center",
+                    }}
+                >
+                    <div
+                        id="chat-messages"
+                        style={{
+                            padding: "30px",
+                            justifyContent: "right",
+                        }}
+                        ref={elemRef}
+                    >
+                        {chatMessages &&
+                            chatMessages.map((each) => (
+                                <div key={each.id}>
+                                    <p>{each.message}</p>
+                                    <p
+                                        style={{
+                                            color: "darkgoldenrod",
+                                            fontSize: "12px",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        {each.first}
+                                        &nbsp;
+                                        {each.last}
+                                    </p>
+                                </div>
+                            ))}
+                    </div>
+
+                    <div>
+                        <textarea
+                            style={{
+                                fontFamily: "Dosis",
+                                marginLeft: "30px",
+                                width: "321px",
+                                marginBottom: "24px",
+                            }}
+                            onKeyDown={keyCheck}
+                            placeholder="Type here..."
+                        />
+                    </div>
+
+                    {/* <button onClick={keyCheck}>Send</button> */}
+                </div>
             </div>
-            <textarea
-                style={{ fontFamily: "Dosis" }}
-                onKeyDown={keyCheck}
-                placeholder="Type here"
-            />
-            {/* <button onClick={keyCheck}>Send</button> */}
         </div>
     );
 }
