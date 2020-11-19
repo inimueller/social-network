@@ -44,10 +44,15 @@ export default function FindPeople() {
             <div>
                 {users &&
                     users.map((user) => (
-                        <div key={user.id} id="profile-container">
+                        <div
+                            key={user.id}
+                            id="profile-container"
+                            style={{ display: "flex", width: "196px" }}
+                        >
                             <Link to={`/user/${user.id}`}>
                                 <div id="profile-pic-container">
                                     <img
+                                        style={{ width: "100%" }}
                                         src={
                                             user.url ||
                                             "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"

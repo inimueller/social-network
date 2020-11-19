@@ -79,11 +79,65 @@ export default class App extends React.Component {
                 <header>
                     <Logo />
                     <div
+                        className="navbar"
+                        style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            marginTop: "40px",
+                        }}
+                    >
+                        <div>
+                            <h4>
+                                <a
+                                    className="navbar-text"
+                                    style={{
+                                        padding: "20px",
+                                        fontSize: "18px",
+                                    }}
+                                    href="/users"
+                                >
+                                    Search
+                                </a>
+                            </h4>
+                        </div>
+                        <div>
+                            <h4>
+                                <a
+                                    className="navbar-text"
+                                    style={{
+                                        padding: "20px",
+                                        fontSize: "18px",
+                                    }}
+                                    href="/friends"
+                                >
+                                    Friends
+                                </a>
+                            </h4>
+                        </div>
+
+                        <div>
+                            <h4>
+                                <a
+                                    className="navbar-text"
+                                    style={{
+                                        padding: "20px",
+                                        fontSize: "18px",
+                                    }}
+                                    href="/logout"
+                                >
+                                    Log out
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                    <div
                         style={{
                             zoom: "20%",
                             marginTop: "80px",
                             marginRight: "80px",
                             overflow: "hidden",
+                            // position: "fixed",
+                            zIndex: "20",
                         }}
                     >
                         <ProfilePic
@@ -94,13 +148,7 @@ export default class App extends React.Component {
                         />
                     </div>
                 </header>
-                <div>
-                    <h4>
-                        <a className="logout" href="/logout">
-                            Log out
-                        </a>
-                    </h4>
-                </div>
+
                 {/* <div>
                     <FindPeople />
                 </div> */}

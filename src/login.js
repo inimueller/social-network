@@ -44,31 +44,48 @@ export default class Login extends React.Component {
     render() {
         console.log("this.state.error: ", this.state.error);
         return (
-            <div>
-                <h1>I am the Login Component!</h1>
-                {this.state.error && <div>Oops, something went wrong</div>}
+            <div style={{ display: "flex", justifyContent: "center" }}>
+                <div style={{ width: "400px", fontFamily: "Open Sans" }}>
+                    {this.state.error && (
+                        <div>Oops, something went wrong 🤕</div>
+                    )}
 
-                <input
-                    name="email"
-                    placeholder="email..."
-                    onChange={(e) => this.handleChange(e)}
-                    // onChange={this.handleChange}
-                ></input>
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="password..."
-                    onChange={(e) => this.handleChange(e)}
-                ></input>
-                <button onClick={() => this.submit()}>Login</button>
-                <p>
-                    If you dont have an account yet please go to
-                    <Link to="/">Register</Link>
-                </p>
-                <p>
-                    Did you forget your password?
-                    <Link to="/reset">Reset</Link>
-                </p>
+                    <input
+                        style={{ width: "198px", marginLeft: "0px" }}
+                        name="email"
+                        placeholder="Email"
+                        onChange={(e) => this.handleChange(e)}
+                        // onChange={this.handleChange}
+                    ></input>
+                    <input
+                        style={{ width: "198px", marginRight: "0px" }}
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        onChange={(e) => this.handleChange(e)}
+                    ></input>
+                    <div style={{}}>
+                        <div>
+                            <button
+                                style={{ width: "400px", marginTop: "2px" }}
+                                onClick={() => this.submit()}
+                            >
+                                Login
+                            </button>
+                        </div>
+                        <div>
+                            <p>
+                                If you don't have an account yet please go
+                                to&nbsp;
+                                <Link to="/">Register</Link>
+                            </p>
+                        </div>
+                        <p>
+                            Did you forget your password?&nbsp;
+                            <Link to="/reset">Reset</Link>
+                        </p>
+                    </div>
+                </div>
             </div>
         );
     }

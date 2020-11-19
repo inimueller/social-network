@@ -45,8 +45,9 @@ export default class Registration extends React.Component {
                     {this.state.error && <div>Oops, something went wrong!</div>}
                     <div
                         style={{
-                            width: "200px",
-                            marginTop: "15px",
+                            width: "163px",
+                            marginTop: "5px",
+                            marginBottom: "15px",
                         }}
                     >
                         <input
@@ -73,13 +74,45 @@ export default class Registration extends React.Component {
                     </div>
                 </div>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                        <button onClick={() => this.submit()}>Register</button>
+                    <div style={{ width: "163px" }}>
+                        <div
+                            id="register-button"
+                            style={{
+                                // display: "flex",
+                                // justifyContent: "center",
+                                position: "relative",
+                                width: "100%",
+                            }}
+                        >
+                            <button
+                                id="reg-button"
+                                onClick={() => this.submit()}
+                            >
+                                Register
+                            </button>
+                        </div>
+                        <div
+                            id="login-text"
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <p>
+                                Already registered? <br />
+                                <Link
+                                    className="fake-button"
+                                    style={{
+                                        color: "darkgoldenrod",
+                                        textDecoration: "none",
+                                    }}
+                                    to="/login"
+                                >
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login
+                                </Link>
+                            </p>
+                        </div>
                     </div>
-                    <p style={{ display: "flex", justifyContent: "center" }}>
-                        Do you already have an account? <br />
-                        <Link to="/login">Login</Link>
-                    </p>
                 </div>
             </>
         );

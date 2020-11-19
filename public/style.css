@@ -12,13 +12,18 @@ input {
     font-family: "Dosis", sans-serif;
 }
 
+#file-upload-button {
+    font-family: "Dosis", sans-serif;
+}
+
 h1 {
-    margin-top: 16px;
+    text-align: center;
     margin-bottom: 16px;
     font-family: "Dosis", sans-serif;
 }
 
 h2 {
+    text-align: center;
     font-family: "Dosis", sans-serif;
 }
 
@@ -34,15 +39,25 @@ h4 {
     text-decoration: none;
 }
 
-.logout {
-    background-color: whitesmoke;
-    border-radius: 10%;
-    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
-    padding: 10px;
+p:visited {
+    color: black;
+}
+
+.navbar-text {
+    /* background-color: whitesmoke; */
+    /* border-radius: 10%; */
+    /* box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1); */
+    /* padding: 10px; */
+    /* padding-top: 30px; */
     font-family: "Dosis", sans-serif;
     color: darkgoldenrod;
     text-decoration: none;
     /* float: right; */
+}
+
+a:visited {
+    color: darkgoldenrod;
+    font-weight: bold;
 }
 
 p {
@@ -108,6 +123,18 @@ button {
     font-family: "Open Sans", sans-serif;
 }
 
+#reg-button {
+    font-family: "Open Sans", sans-serif;
+    width: 100%;
+}
+
+#register-button {
+    font-family: "Open Sans", sans-serif;
+    display: flex;
+    width: 163px;
+    /* margin-bottom: 40px; */
+}
+
 #other-profile-img {
     border-radius: 5%;
     margin: 10px 10px 10px 10px;
@@ -138,6 +165,8 @@ profile-pic {
 
 input {
     font-family: "Open Sans", sans-serif;
+    padding: 6px;
+    margin: 2px;
 }
 
 img#card {

@@ -68,24 +68,54 @@ export default class Uploader extends React.Component {
 
     render() {
         return (
-            <div id="modal-overlay">
-                <div id="uploader" style={{ width: "232px" }}>
-                    <h1>Uploader</h1>
-                    <img
-                        style={{ width: "100%" }}
-                        id="card"
-                        src={
-                            this.state.url ||
-                            "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
-                        }
-                    />
-
-                    <input
-                        name="file"
-                        type="file"
-                        onChange={(e) => this.handleChange(e)}
-                    ></input>
-                    <button onClick={() => this.submit()}>Upload</button>
+            <div
+                style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                }}
+            >
+                <div id="profile-container">
+                    <div
+                        id="modal"
+                        style={{
+                            backgroundColor: "whitesmoke",
+                            position: "absolute",
+                            zIndex: "2",
+                            marginTop: "-442px",
+                            marginLeft: "-146px",
+                            // opacity: "50%",
+                        }}
+                    >
+                        <div id="uploader" style={{ width: "232px" }}>
+                            {/* <h1>Uploader</h1> */}
+                            <img
+                                style={{ width: "100%", marginBottom: "50px" }}
+                                id="card"
+                                src={
+                                    this.state.url ||
+                                    "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
+                                }
+                            />
+                            <div style={{ backgroundColor: "whitesmoke" }}>
+                                <input
+                                    style={{
+                                        fontFamily: "Open Sans",
+                                        color: "darkgoldenrod",
+                                    }}
+                                    name="file"
+                                    type="file"
+                                    onChange={(e) => this.handleChange(e)}
+                                ></input>
+                                <button
+                                    style={{ width: "100%" }}
+                                    onClick={() => this.submit()}
+                                >
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

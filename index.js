@@ -498,6 +498,8 @@ app.get("/getFriends", (req, res) => {
         });
 });
 
+// get-> logout
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/");

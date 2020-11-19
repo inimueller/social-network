@@ -11,6 +11,7 @@ export default function Profile(props) {
                     display: "flex",
                     width: "100%",
                     justifyContent: "center",
+                    marginTop: "40px",
                 }}
             >
                 <div id="profile-container">
