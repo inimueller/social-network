@@ -69,9 +69,10 @@ export default class Uploader extends React.Component {
     render() {
         return (
             <div id="modal-overlay">
-                <div id="uploader">
+                <div id="uploader" style={{ width: "232px" }}>
                     <h1>Uploader</h1>
                     <img
+                        style={{ width: "100%" }}
                         id="card"
                         src={
                             this.state.url ||

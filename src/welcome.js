@@ -21,6 +21,7 @@ export default function Welcome() {
                         width: "800px",
                         display: "flex",
                         flexWrap: "wrap",
+                        justifyContent: "center",
                     }}
                 >
                     <img src="https://img.icons8.com/color/452/illuminati-symbol.png" />

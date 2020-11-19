@@ -93,14 +93,14 @@ export default class App extends React.Component {
                             toggleComponent={() => this.toggleComponent()}
                         />
                     </div>
-                    <div>
-                        <h4>
-                            <a className="logout" href="/logout">
-                                Log out
-                            </a>
-                        </h4>
-                    </div>
                 </header>
+                <div>
+                    <h4>
+                        <a className="logout" href="/logout">
+                            Log out
+                        </a>
+                    </h4>
+                </div>
                 {/* <div>
                     <FindPeople />
                 </div> */}

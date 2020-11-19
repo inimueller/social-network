@@ -8,13 +8,16 @@ export default function ProfilePicture({
 }) {
     return (
         <>
-            <img
-                src={
-                    imgUrl ||
-                    "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
-                }
-                onClick={() => toggleComponent("uploaderIsVisible")}
-            />
+            <div id="profil-pic" style={{ width: "232px" }}>
+                <img
+                    style={{ width: "100%" }}
+                    src={
+                        imgUrl ||
+                        "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
+                    }
+                    onClick={() => toggleComponent("uploaderIsVisible")}
+                />
+            </div>
         </>
     );
 }
