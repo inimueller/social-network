@@ -179,7 +179,7 @@ module.exports.getFriends = (id) => {
 // this query gets the last 10 messages
 
 module.exports.getMessages = () => {
-    return db.query(`SELECT chat.id, message, first, last, chat.created_at
+    return db.query(`SELECT chat.id, message, first, last, chat.created_at, url
         FROM chat
         JOIN users
         ON user_id = users.id

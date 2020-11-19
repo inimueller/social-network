@@ -39,12 +39,19 @@ export default class OtherProfile extends React.Component {
 
     render() {
         return (
-            <>
+            <div
+                style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                }}
+            >
                 <div id="other-profile">
                     <h1>
                         {this.state.first} {this.state.last}
                     </h1>{" "}
                     <img
+                        style={{ width: "200px" }}
                         id="other-profile-img"
                         src={
                             this.state.url ||
@@ -55,7 +62,7 @@ export default class OtherProfile extends React.Component {
                     {/* <FriendButton otherUserId={this.state.id} /> */}
                     <FriendButton otherUserId={this.props.match.params.id} />
                 </div>
-            </>
+            </div>
         );
     }
 }

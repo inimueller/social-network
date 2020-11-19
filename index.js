@@ -575,6 +575,7 @@ io.on("connection", (socket) => {
             db.getUserById(userId).then((answer) => {
                 rows[0].first = answer.rows[0].first;
                 rows[0].last = answer.rows[0].last;
+                rows[0].url = answer.rows[0].url;
                 io.emit("addNewMessage", rows);
             });
         });

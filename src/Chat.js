@@ -87,6 +87,19 @@ export default function Chat() {
                                         &nbsp;
                                         {each.last}
                                     </p>
+                                    <div
+                                        style={{
+                                            width: "30px",
+                                            height: "30px",
+                                            borderRadius: "50%",
+                                            overflow: "hidden",
+                                        }}
+                                    >
+                                        <img
+                                            style={{ width: "30px" }}
+                                            src={each.url}
+                                        ></img>
+                                    </div>
                                 </div>
                             ))}
                     </div>
