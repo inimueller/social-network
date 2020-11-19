@@ -114,6 +114,20 @@ export default class App extends React.Component {
                                 </a>
                             </h4>
                         </div>
+                        <div>
+                            <h4>
+                                <a
+                                    className="navbar-text"
+                                    style={{
+                                        padding: "20px",
+                                        fontSize: "18px",
+                                    }}
+                                    href="/chat"
+                                >
+                                    Chat
+                                </a>
+                            </h4>
+                        </div>
 
                         <div>
                             <h4>

@@ -162,7 +162,7 @@ module.exports.cancelFriendRequest = (recipient_id, sender_id) => {
     );
 };
 
-// this query get all of your friends
+// this query gets all of your friends
 
 module.exports.getFriends = (id) => {
     return db.query(
@@ -173,5 +173,26 @@ module.exports.getFriends = (id) => {
   OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
   OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`,
         [id]
+    );
+};
+
+// this query gets the last 10 messages
+
+module.exports.getMessages = () => {
+    return db.query(`SELECT chat.id, message, first, last, chat.created_at
+        FROM chat
+        JOIN users
+        ON user_id = users.id
+        ORDER BY chat.created_at DESC
+        LIMIT 10;
+        `);
+};
+
+// this query addes messages
+
+module.exports.addMessage = (id, msg) => {
+    return db.query(
+        `INSERT INTO chat (user_id, message) VALUES ($1, $2) RETURNING *`,
+        [id, msg]
     );
 };

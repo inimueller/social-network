@@ -44,6 +44,20 @@ export function unfriend(id) {
     });
 }
 
+export function chatMessages(msgs) {
+    return {
+        type: "CHAT_MESSAGES",
+        chatMessages: msgs,
+    };
+}
+
+export function chatMessage(msg) {
+    return {
+        type: "CHAT_MESSAGE",
+        chatMessage: msg[0],
+    };
+}
+
 // ---> async await version:
 
 // export async function getList() {

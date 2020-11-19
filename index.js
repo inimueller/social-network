@@ -538,10 +538,7 @@ SOCKET CODE goes here
 */
 
 io.on("connection", (socket) => {
-    console.log(`socket with id ${socket.id} just connected `);
-    if (!socket.request.session.userId) {
-        return socket.disconnect(true);
-    }
+    // console.log(`socket with id ${socket.id} just connected!`);
 
     //we are adding a double layer of protection and making sure that only users
     //with the right cookie are recognised as connected sockets
@@ -552,73 +549,42 @@ io.on("connection", (socket) => {
     // sth like db.getMsgs().then(data=> blablabla)
     //  we do this with->
 
-    io.emit(
-        "chatHistory",
-        "here we will send an array from the db with last 10 msgs"
-    );
+    const userId = socket.request.session.userId;
+
+    console.log(socket.request.session.userId);
+    console.log("you are connected");
+    db.getMessages().then(({ rows }) => {
+        console.log("rows in getMessages: ", rows);
+        io.emit("chatHistory", rows.reverse());
+    });
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
     // 1st argument is what we will have to listen for on the client side
     // 2nd argument is the dataload we want to send along
 
     // RECEIVING A NEW MESSAGE FROM CONNECTED SOCKET
-    socket.on("My amazing new msg", (newMsg) => {
+    socket.on("newMessage", (msg) => {
+        console.log("received amazing new msg from client: ", msg);
+        // we want to find out who sent this msg
+        console.log("author of the msg was user with id: ", userId);
         // 1st argument is the key
         // 2nd argument is a callback function containing the newMsg
-        console.log("received new message from client: ", newMsg);
-        //we want to know who sent the message
-        console.log("author of the message: ", socket.request.session.userId);
-
-        // we need to add this msg to the chat table
-        // we also want to retrieve the info of the author of the msg (first, last and url) FROM our user table
-        // compose a msg OBJECT containing the user info and the new msg that got sent
-        // make sure if structurally matches with what your msg objects in the chat history look like
-        socket.emit("newMsgToAddToHistory", newMsg);
+        db.addMessage(userId, msg).then(({ rows }) => {
+            db.getUserById(userId).then((answer) => {
+                rows[0].first = answer.rows[0].first;
+                rows[0].last = answer.rows[0].last;
+                io.emit("addNewMessage", rows);
+            });
+        });
     });
-});
-
-/* 
-
-IVANAS CODE 
-we can identify users based on their socket id
-
--> hey server, whenever a user logs in, run this function:
-
-io.on("connection", (socket) => {
-    // console.log(`socket with the id ${socket.id} is now connected`);
-
-    //sending messages TO client FROM server
-    //it expects 2 arguments
-    //we use sockets to emit events, in this case, an event called "welcome"
-    //the second argument we pass is the data we wanna send to the client when this message is sent
-
-    // socket.emit sends a message to only one client
-    // it will send a message to the client who just connected and NO ONE ELSE
-
-    socket.emit("welcome", {
-        name: "ivana",
-    });
-
-    // io.emit sends a message to EVERY CONNECTED CLIENT
-    io.emit("messageSentWithIoEmit", {
-        id: socket.id,
-    });
-
-    // socket.broadcast.emit sends a message to EVERY CONNECTED CLIENT
-    // EXCEPT!!! for the one that just connected
-
-    socket.broadcast.emit("broadcastEmitFun", {
-        socketId: socket.id,
-    });
-
-    //listening for a message from the client
-    socket.on("messageFromClient", (data) => {
-        // console.log("here is the dat the client sent me: ", data);
-    });
-
-    // how can we tell when a user leaves?
-    // either by logging out or closing the tab
+    // we need to add this msg to the chat table
+    // we also want to retrieve the info of the author of the msg (first, last and url) FROM our user table
+    // compose a msg OBJECT containing the user info and the new msg that got sent
+    // make sure if structurally matches with what your msg objects in the chat history look like
 
     socket.on("disconnect", () => {
-        // console.log("user " + socket.id + " has disconnected");
+        console.log("user " + socket.id + " has disconnected");
     });
 });
-*/

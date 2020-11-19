@@ -4,60 +4,69 @@ import { socket } from "./socket";
 
 import { useSelector } from "react-redux";
 
+// !!!!! you need to:
+// 1. create a chatt table
+// 2. add a bit of dummy data
+// 3. complete the socket connection
+// 4. dispatch and action
+// 5. put the chat history in redux global state
+// ...and then this cont will have actual value
+
 export default function Chat() {
-    const chatMessages = useSelector((state) => state.chatMessages);
-    console.log("chatMessages", chatMessages); //for now this will be undefined
-    // !!!!! you need to:
-    // 1. create a chatt table
-    // 2. add a bit of dummy data
-    // 3. complete the socket connection
-    // 4. dispatch and action
-    // 5. put the chat history in redux global state
-    // ...and then this cont will have actual value
+    const chatMessages = useSelector((state) => state && state.chatMessages);
+    const chatMessage = useSelector((state) => state && state.chatMessage);
+    // console.log("chatMessages: ", chatMessages);
 
     const elemRef = useRef();
 
-    useEffect(() => {
-        // console.log("chat just mounted");
-        // console.log("elemRef: ", elemRef);
-        // console.log("scroll top: ", elemRef.current.scrollTop);
-        // console.log("clientHeight: ", elemRef.current.clientHeight);
-        // console.log("scrollHeight: ", elemRef.current.scrollHeight);
-        elemRef.current.scrollTop =
-            elemRef.current.scrollHeight - elemRef.current.clientHeight;
-    }, []);
+    // useEffect(() => {
+    //     console.log("chat just mounted");
+    //     ˀ;
+    //     // console.log("elemRef: ", elemRef);
+    //     // console.log("scroll top: ", elemRef.current.scrollTop);
+    //     // console.log("clientHeight: ", elemRef.current.clientHeight);
+    //     // console.log("scrollHeight: ", elemRef.current.scrollHeight);
+    //     elemRef.current.scrollTop =
+    //         elemRef.current.scrollHeight - elemRef.current.clientHeight;
+    // }, []);
 
-    const keyCheck = (e) => {
-        if (e.key === "Enter") {
+    const keyCheck = (evt) => {
+        if (evt.key === "Enter") {
             // console.log("user wants to send message");
-            e.preventDefault();
-            console.log("value in textarea: ", e.target.value);
-
-            //here we need to emit the msg ->
-            socket.emit("My amazing new msg", e.target.value);
-
-            // here we empty the text area again->
-            e.target.value = "";
+            evt.preventDefault();
+            console.log("value in textarea: ", evt.target.value);
+            socket.emit("newMessage", evt.target.value);
+            evt.target.value = "";
         }
     };
 
+    console.log("chatMessages: ", chatMessages);
+
     return (
-        <>
-            <h1>I am the Chat Component</h1>
-            <div className="chat-display-container">
-                <p>Chat holaaaaaaaa</p>
-                <p>Chat messageeeeeee</p>
-                <p>Chat cómo estásss</p>
-                <p>Chat yo reee bien jejejej</p>
-                <p>Chat me alegrooo</p>
-                <p>Chat saludosssss</p>
-                <p>Chat graciassssss</p>
-                <p>Chat messageeeeeee</p>
+        <div
+            id="chat-container"
+            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        >
+            <h1>Chat</h1>
+            <div id="chat-messages" ref={elemRef}>
+                {chatMessages &&
+                    chatMessages.map((each) => (
+                        <div key={each.id}>
+                            <p>{each.message}</p>
+                            <p style={{ color: "darkgoldenrod" }}>
+                                {each.first}
+                                &nbsp;
+                                {each.last}
+                            </p>
+                        </div>
+                    ))}
             </div>
             <textarea
+                style={{ fontFamily: "Dosis" }}
                 onKeyDown={keyCheck}
-                placeholder="type whatever in hereeeee"
+                placeholder="Type here"
             />
-        </>
+            {/* <button onClick={keyCheck}>Send</button> */}
+        </div>
     );
 }

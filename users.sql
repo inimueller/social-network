@@ -23,3 +23,11 @@ CREATE TABLE users(
    recipient_id INT REFERENCES users(id) NOT NULL,
    accepted BOOLEAN DEFAULT false
  );
+
+ DROP TABLE IF EXISTS chat CASCADE;
+CREATE TABLE chat(
+  id SERIAL PRIMARY KEY,
+  message TEXT,
+  user_id INT REFERENCES users(id) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ );
