@@ -72,13 +72,28 @@ export default class BioEditor extends Component {
                 )}
                 <div id="bio-itself">{this.props.bio}</div>
                 {this.props.bio && !this.state.editorIsVisible && (
-                    <button onClick={() => this.toggleBioEditor()}>Edit</button>
+                    <button
+                        className="bio-button"
+                        onClick={() => this.toggleBioEditor()}
+                    >
+                        Edit
+                    </button>
                 )}
                 {!this.props.bio && !this.state.editorIsVisible && (
-                    <button onClick={() => this.toggleBioEditor()}>Edit</button>
+                    <button
+                        className="bio-button"
+                        onClick={() => this.toggleBioEditor()}
+                    >
+                        Edit
+                    </button>
                 )}
                 {this.state.editorIsVisible && (
-                    <button onClick={() => this.submitBio()}>Submit</button>
+                    <button
+                        className="bio-button"
+                        onClick={() => this.submitBio()}
+                    >
+                        Submit
+                    </button>
                 )}
             </>
         );

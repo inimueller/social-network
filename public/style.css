@@ -10,6 +10,8 @@ body {
 /* TEXT  */
 
 h1 {
+    margin-top: 16px;
+    margin-bottom: 16px;
     font-family: "Dosis", sans-serif;
 }
 
@@ -18,6 +20,22 @@ h2 {
 }
 
 h3 {
+    font-family: "Dosis", sans-serif;
+    color: darkgoldenrod;
+    text-decoration: none;
+}
+
+h4 {
+    font-family: "Dosis", sans-serif;
+    color: darkgoldenrod;
+    text-decoration: none;
+}
+
+.logout {
+    background-color: whitesmoke;
+    border-radius: 10%;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.1);
+    padding: 10px;
     font-family: "Dosis", sans-serif;
     color: darkgoldenrod;
     text-decoration: none;
@@ -46,7 +64,7 @@ Link {
     font-family: "Open Sans", sans-serif;
 }
 
-#profilePic {
+#profile-pic-header {
     border-radius: 5%;
 
     position: relative;
@@ -92,6 +110,10 @@ button {
     /* padding: 10px 10px 10px 10px; */
 }
 
+profile-pic {
+    width: 200px;
+}
+
 #other-profile {
     margin-left: 30px;
 }
@@ -117,4 +139,14 @@ input {
 img#card {
     display: flex;
     border-radius: 5%;
+}
+
+img {
+    border-radius: 5%;
+}
+
+.bio-button {
+    margin-top: 16px;
+    width: 100%;
+    height: 30px;
 }

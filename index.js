@@ -498,6 +498,11 @@ app.get("/getFriends", (req, res) => {
         });
 });
 
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/");
+});
+
 // app.get("/ini", (req, res) => {
 //     let ini = "testing";
 

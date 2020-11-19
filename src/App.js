@@ -78,13 +78,27 @@ export default class App extends React.Component {
             <BrowserRouter>
                 <header>
                     <Logo />
-                    <div id="profile-pic-header">
+                    <div
+                        style={{
+                            zoom: "20%",
+                            marginTop: "80px",
+                            marginRight: "80px",
+                            overflow: "hidden",
+                        }}
+                    >
                         <ProfilePic
                             first={this.state.first}
                             last={this.state.last}
                             imgUrl={this.state.imgUrl}
                             toggleComponent={() => this.toggleComponent()}
                         />
+                    </div>
+                    <div>
+                        <h4>
+                            <a className="logout" href="/logout">
+                                Log out
+                            </a>
+                        </h4>
                     </div>
                 </header>
                 {/* <div>
