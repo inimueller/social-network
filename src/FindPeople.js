@@ -31,43 +31,72 @@ export default function FindPeople() {
     }, [search]);
 
     return (
-        <>
-            <div id="search-input">
-                <input
-                    name="search"
-                    autoComplete="off"
-                    placeholder="Search"
-                    onChange={(e) => setSearch(e.target.value)}
-                    defaultValue={search}
-                ></input>
+        <div
+            style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+            }}
+        >
+            <div
+                id="container"
+                style={{
+                    width: "800px",
+                }}
+            >
+                <div id="search-input">
+                    <input
+                        name="search"
+                        autoComplete="off"
+                        placeholder="Search"
+                        onChange={(e) => setSearch(e.target.value)}
+                        defaultValue={search}
+                    ></input>
+                </div>
+                <div
+                    style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                    }}
+                >
+                    {users &&
+                        users.map((user) => (
+                            <div
+                                key={user.id}
+                                id="profile-container"
+                                style={{
+                                    width: "240px",
+                                }}
+                            >
+                                <Link to={`/user/${user.id}`}>
+                                    <div
+                                        id="profile-pic-container"
+                                        style={{
+                                            height: "140px",
+                                            overflow: "hidden",
+                                        }}
+                                    >
+                                        <img
+                                            style={{ width: "140px" }}
+                                            src={
+                                                user.url ||
+                                                "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
+                                            }
+                                        />
+                                    </div>
+                                    <div style={{ marginLeft: "30px" }}>
+                                        <p>
+                                            {user.first} {user.last}
+                                        </p>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
+                    <div style={{ marginLeft: "0px" }}>
+                        {error === "error" && <p>Oooops no user found!</p>}
+                    </div>
+                </div>
             </div>
-            <div>
-                {users &&
-                    users.map((user) => (
-                        <div
-                            key={user.id}
-                            id="profile-container"
-                            style={{ display: "flex", width: "196px" }}
-                        >
-                            <Link to={`/user/${user.id}`}>
-                                <div id="profile-pic-container">
-                                    <img
-                                        style={{ width: "100%" }}
-                                        src={
-                                            user.url ||
-                                            "https://static.toiimg.com/photo/msid-67586673/67586673.jpg?3918697"
-                                        }
-                                    />
-                                    <p>
-                                        {user.first} {user.last}
-                                    </p>
-                                </div>
-                            </Link>
-                        </div>
-                    ))}
-
-                {error === "error" && <p>Oooops no user found!</p>}
-            </div>
-        </>
+        </div>
     );
 }
