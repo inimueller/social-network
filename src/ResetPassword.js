@@ -23,47 +23,68 @@ export default class ResetPassword extends React.Component {
             console.log("first display modus");
 
             return (
-                <div>
-                    <p>Please enter your email address</p>
-                    <input
-                        name="email"
-                        placeholder="Email"
-                        onChange={this.handleChange}
-                        autoComplete="off"
-                    ></input>
-                    <button onClick={() => this.reset()}>Reset</button>
+                <div
+                    style={{
+                        display: "flex",
+                        width: "100%",
+                        justifyContent: "center",
+                    }}
+                >
+                    <div>
+                        <p>Please enter your email address</p>
+                        <input
+                            key="mail"
+                            name="email"
+                            placeholder="Email"
+                            onChange={this.handleChange}
+                            autoComplete="off"
+                        ></input>
+                        <button onClick={() => this.reset()}>Reset</button>
+                    </div>
                 </div>
             );
         } else if (step == 2) {
             console.log("second display modus");
             return (
-                <div>
-                    <p>
-                        Please check your email to find your secret code and
-                        enter it here:
-                    </p>
-                    <input
-                        name="code"
-                        placeholder="Code"
-                        onChange={this.handleChange}
-                        autoComplete="off"
-                    ></input>
-                    <p>Please enter a new password:</p>
-                    <input
-                        name="password"
-                        placeholder="Password"
-                        type="password"
-                        onChange={this.handleChange}
-                        autoComplete="off"
-                    ></input>
-                    <button onClick={() => this.update()}>update</button>
+                <div
+                    style={{
+                        display: "flex",
+                        width: "100%",
+                        justifyContent: "center",
+                    }}
+                >
+                    <div>
+                        <p>Enter your secret code here:</p>
+                        <input
+                            key="code"
+                            name="code"
+                            placeholder="Code"
+                            onChange={this.handleChange}
+                            autoComplete="off"
+                        ></input>
+                        <p>Please enter a new password:</p>
+                        <input
+                            name="password"
+                            placeholder="Password"
+                            type="password"
+                            onChange={this.handleChange}
+                            autoComplete="off"
+                        ></input>
+                        <button onClick={() => this.update()}>update</button>
+                    </div>
                 </div>
             );
         } else {
             console.log("third display modus");
             return (
-                <div>
-                    <p>Password reset successfully reset</p>
+                <div
+                    style={{
+                        display: "flex",
+                        width: "100%",
+                        justifyContent: "center",
+                    }}
+                >
+                    <p>Password reset successfully reset.&nbsp;</p>
                     <p>
                         <Link to="/login">Log in</Link> with new password.
                     </p>

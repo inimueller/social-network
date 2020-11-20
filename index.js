@@ -566,9 +566,9 @@ io.on("connection", (socket) => {
 
     // RECEIVING A NEW MESSAGE FROM CONNECTED SOCKET
     socket.on("newMessage", (msg) => {
-        console.log("received amazing new msg from client: ", msg);
+        // console.log("received amazing new msg from client: ", msg);
         // we want to find out who sent this msg
-        console.log("author of the msg was user with id: ", userId);
+        // console.log("author of the msg was user with id: ", userId);
         // 1st argument is the key
         // 2nd argument is a callback function containing the newMsg
         db.addMessage(userId, msg).then(({ rows }) => {
@@ -586,6 +586,6 @@ io.on("connection", (socket) => {
     // make sure if structurally matches with what your msg objects in the chat history look like
 
     socket.on("disconnect", () => {
-        console.log("user " + socket.id + " has disconnected");
+        // console.log("user " + socket.id + " has disconnected");
     });
 });

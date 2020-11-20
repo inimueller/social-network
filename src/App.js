@@ -162,10 +162,12 @@ export default class App extends React.Component {
                         />
                     </div>
                 </header>
+                <div></div>
+                {/* <footer>
+                    This wouldn't have been possible without everyone else's
+                    code
+                </footer> */}
 
-                {/* <div>
-                    <FindPeople />
-                </div> */}
                 <div>
                     <Route
                         exact

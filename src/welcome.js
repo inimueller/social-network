@@ -27,7 +27,7 @@ export default function Welcome() {
                     <img src="https://img.icons8.com/color/452/illuminati-symbol.png" />
                 </div>
                 <div style={{ marginTop: "-20px" }}>
-                    <h1>Welcome to Amuleto</h1>
+                    <h1>Welcome to Amulet</h1>
                 </div>
                 <HashRouter>
                     <div>
